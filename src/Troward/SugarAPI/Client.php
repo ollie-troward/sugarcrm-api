@@ -36,14 +36,14 @@ class Client implements ClientContract {
      * @param $method
      * @param $uri
      * @param array $parameters
+     * @param null $token
      * @return array
-     * @throws ClientException
      */
-    private function client($method, $uri, array $parameters)
+    private function client($method, $uri, array $parameters, $token = null)
     {
         try
         {
-            return (new GuzzleClient)->$method($this->buildUrl($uri), $this->buildParameters($parameters))->json();
+            return (new GuzzleClient)->$method($this->buildUrl($uri), $this->buildParameters($parameters, $token))->json();
         } catch (\RuntimeException $e)
         {
             throw new ClientException($e->getMessage());
@@ -61,11 +61,15 @@ class Client implements ClientContract {
 
     /**
      * @param array $parameters
+     * @param null $token
      * @return array
      */
-    private function buildParameters(array $parameters)
+    private function buildParameters(array $parameters, $token)
     {
-        return ['body' => json_encode($parameters)];
+        return [
+            'headers' => ['oauth-token' => $token],
+            'body' => json_encode($parameters)
+        ];
     }
 
     /**
@@ -75,7 +79,7 @@ class Client implements ClientContract {
      */
     public function get($uri, array $parameters)
     {
-        return $this->client('get', $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters);
     }
 
     /**
@@ -85,7 +89,7 @@ class Client implements ClientContract {
      */
     public function post($uri, array $parameters)
     {
-        return $this->client('post', $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters);
     }
 
     /**
@@ -95,7 +99,7 @@ class Client implements ClientContract {
      */
     public function put($uri, array $parameters)
     {
-        return $this->client('put', $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters);
     }
 
     /**
@@ -105,8 +109,6 @@ class Client implements ClientContract {
      */
     public function delete($uri, array $parameters)
     {
-        return $this->client('delete', $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters);
     }
-
-
 }
