@@ -1,0 +1,23 @@
+{
+  "name": "troward/sugarapi",
+  "description": "SugarCRM 7 API Wrapper",
+  "keywords": [
+    "sugarcrm",
+    "api",
+    "wrapper",
+    "troward"
+  ],
+  "license": "MIT",
+  "require-dev": {
+    "phpspec/phpspec": "2.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "Troward": "src/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "stable"
+}
