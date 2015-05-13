@@ -16,16 +16,43 @@ class Config implements ConfigContract {
      */
     private $password;
 
-    function __construct($url, $username, $password)
+    /**
+     * @var
+     */
+    private $consumerKey;
+
+    /**
+     * @var
+     */
+    private $consumerSecret;
+
+    /**
+     * @param $url
+     * @param $username
+     * @param $password
+     * @param $consumerKey
+     * @param $consumerSecret
+     */
+    function __construct($url, $username, $password, $consumerKey, $consumerSecret)
     {
         $this->url = $url;
         $this->username = $username;
         $this->password = $password;
+        $this->consumerKey = $consumerKey;
+        $this->consumerSecret = $consumerSecret;
     }
 
     /**
-     * @param $url
-     * @return mixed
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return void
      */
     public function setUrl($url)
     {
@@ -33,8 +60,16 @@ class Config implements ConfigContract {
     }
 
     /**
-     * @param $username
-     * @return mixed
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return void
      */
     public function setUsername($username)
     {
@@ -42,8 +77,16 @@ class Config implements ConfigContract {
     }
 
     /**
-     * @param $password
-     * @return mixed
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     * @return void
      */
     public function setPassword($password)
     {
@@ -51,4 +94,37 @@ class Config implements ConfigContract {
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getConsumerKey()
+    {
+        return $this->consumerKey;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function setConsumerKey($key)
+    {
+        $this->consumerKey = $key;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConsumerSecret()
+    {
+        return $this->consumerSecret;
+    }
+
+    /**
+     * @param $secret
+     * @return mixed
+     */
+    public function setConsumerSecret($secret)
+    {
+        $this->consumerSecret = $secret;
+    }
 }

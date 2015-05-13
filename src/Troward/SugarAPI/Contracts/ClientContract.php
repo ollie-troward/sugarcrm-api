@@ -6,22 +6,30 @@
  */
 interface ClientContract {
     /**
-     * @return mixed
+     * @param $uri
+     * @param array $parameters
+     * @return array
      */
-    public function get();
+    public function get($uri, array $parameters);
 
     /**
-     * @return mixed
+     * @param $uri
+     * @param $parameters
+     * @return array
      */
-    public function post();
+    public function post($uri, array $parameters);
 
     /**
-     * @return mixed
+     * @param $uri
+     * @param array $parameters
+     * @return array
      */
-    public function put();
+    public function put($uri, array $parameters);
 
     /**
-     * @return mixed
+     * @param $uri
+     * @param array $parameters
+     * @return array
      */
-    public function delete();
+    public function delete($uri, array $parameters);
 }

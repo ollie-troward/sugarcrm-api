@@ -8,6 +8,9 @@
     "troward"
   ],
   "license": "MIT",
+  "require": {
+    "guzzlehttp/guzzle": "^5.2"
+  },
   "require-dev": {
     "phpspec/phpspec": "2.0"
   },

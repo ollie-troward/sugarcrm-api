@@ -1,48 +1,111 @@
 <?php namespace Troward\SugarAPI;
 
+use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Contracts\ClientContract;
+use GuzzleHttp\Client as GuzzleClient;
 
+/**
+ * Class Client
+ * @package Troward\SugarAPI
+ */
 class Client implements ClientContract {
+
     /**
      * @var Config
      */
     private $config;
 
+    /**
+     * @param Config $config
+     */
     function __construct(Config $config)
     {
         $this->config = $config;
     }
 
     /**
-     * @return mixed
+     * @param Config $config
+     * @return Client
      */
-    public function get()
+    protected function initialise(Config $config)
     {
-        // TODO: Implement get() method.
+        return new self($config);
     }
 
     /**
-     * @return mixed
+     * @param $method
+     * @param $uri
+     * @param array $parameters
+     * @return array
+     * @throws ClientException
      */
-    public function post()
+    private function client($method, $uri, array $parameters)
     {
-        // TODO: Implement post() method.
+        try
+        {
+            return (new GuzzleClient)->$method($this->buildUrl($uri), $this->buildParameters($parameters))->json();
+        } catch (\RuntimeException $e)
+        {
+            throw new ClientException($e->getMessage());
+        }
     }
 
     /**
-     * @return mixed
+     * @param $uri
+     * @return string
      */
-    public function put()
+    private function buildUrl($uri)
     {
-        // TODO: Implement put() method.
+        return $this->config->getUrl() . '/' . $uri;
     }
 
     /**
-     * @return mixed
+     * @param array $parameters
+     * @return array
      */
-    public function delete()
+    private function buildParameters(array $parameters)
     {
-        // TODO: Implement delete() method.
+        return ['body' => json_encode($parameters)];
+    }
+
+    /**
+     * @param $uri
+     * @param array $parameters
+     * @return array
+     */
+    public function get($uri, array $parameters)
+    {
+        return $this->client('get', $uri, $parameters);
+    }
+
+    /**
+     * @param $uri
+     * @param $parameters
+     * @return array
+     */
+    public function post($uri, array $parameters)
+    {
+        return $this->client('post', $uri, $parameters);
+    }
+
+    /**
+     * @param $uri
+     * @param array $parameters
+     * @return array
+     */
+    public function put($uri, array $parameters)
+    {
+        return $this->client('put', $uri, $parameters);
+    }
+
+    /**
+     * @param $uri
+     * @param array $parameters
+     * @return array
+     */
+    public function delete($uri, array $parameters)
+    {
+        return $this->client('delete', $uri, $parameters);
     }
 
 

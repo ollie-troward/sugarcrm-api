@@ -1,17 +1,14 @@
-<?php namespace spec\Troward\SugarAPI;
+<?php
 
-use GuzzleHttp\Exception\ClientException;
+namespace spec\Troward\SugarAPI;
+
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Troward\SugarAPI\Client;
 use Troward\SugarAPI\Config;
 use Troward\SugarAPI\Token;
 
-class ClientSpec extends ObjectBehavior {
-
-    /**
-     * @var
-     */
+class TokenSpec extends ObjectBehavior
+{
     private $config;
 
     function let()
@@ -22,11 +19,14 @@ class ClientSpec extends ObjectBehavior {
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Troward\SugarAPI\Client');
+        $this->shouldHaveType('Troward\SugarAPI\Token');
     }
 
-    function it_runs_a_post_request_and_returns_successful_response()
+    function it_creates_a_new_token()
     {
+        $newToken = (new Token($this->config))->retrieve();
+
         // TODO
     }
+
 }
