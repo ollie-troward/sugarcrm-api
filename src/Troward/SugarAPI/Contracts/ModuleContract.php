@@ -5,6 +5,15 @@
  * @package Troward\SugarAPI\Contracts
  */
 interface ModuleContract {
+
+    /**
+     * @param $module
+     * @param array $filter
+     * @param array $fields
+     * @return mixed
+     */
+    public function find($module, array $filter, array $fields);
+
     /**
      * @param $module
      * @param $limit
@@ -13,4 +22,14 @@ interface ModuleContract {
      * @return mixed
      */
     public function retrieve($module, $limit, array $fields, array $orderBy);
+
+    /**
+     * @param $module
+     * @param $limit
+     * @param array $filter
+     * @param array $fields
+     * @param array $orderBy
+     * @return mixed
+     */
+    public function retrieveByFilter($module, $limit, array $filter, array $fields, array $orderBy);
 }

@@ -62,6 +62,17 @@ class Module extends Client implements ModuleContract {
 
     /**
      * @param $module
+     * @param array $filter
+     * @param array $fields
+     * @return mixed
+     */
+    public function find($module, array $filter, array $fields)
+    {
+        // TODO: Implement find() method.
+    }
+
+    /**
+     * @param $module
      * @param $limit
      * @param $fields
      * @param $orderBy
@@ -72,4 +83,16 @@ class Module extends Client implements ModuleContract {
         return $this->get($module, $this->buildParameters($limit, $fields, $orderBy), $this->token())['records'];
     }
 
+    /**
+     * @param $module
+     * @param $limit
+     * @param array $filter
+     * @param array $fields
+     * @param array $orderBy
+     * @return mixed
+     */
+    public function retrieveByFilter($module, $limit, array $filter, array $fields, array $orderBy)
+    {
+        // TODO: Implement retrieveByFilter() method.
+    }
 }
