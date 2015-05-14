@@ -11,10 +11,12 @@ class Account extends Module implements ModuleContract {
 
     /**
      * @param int $limit
+     * @param array $fields
+     * @param array $orderBy
      * @return mixed
      */
-    public function all($limit = 500)
+    public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->retrieve($this->module, $limit);
+        return $this->retrieve($this->module, $limit, $fields, $orderBy);
     }
 }
