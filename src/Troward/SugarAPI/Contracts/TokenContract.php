@@ -7,7 +7,12 @@
 interface TokenContract {
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function retrieve();
+    public static function retrieve();
+
+    /**
+     * @return static
+     */
+    public function make();
 }

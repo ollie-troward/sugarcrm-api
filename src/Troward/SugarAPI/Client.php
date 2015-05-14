@@ -1,5 +1,6 @@
 <?php namespace Troward\SugarAPI;
 
+use Troward\SugarAPI\Contracts\ConfigContract;
 use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Contracts\ClientContract;
 use GuzzleHttp\Client as GuzzleClient;
@@ -13,33 +14,44 @@ class Client implements ClientContract {
     /**
      * @var Config
      */
-    private $config;
+    protected $config;
 
     /**
-     * @param Config $config
+     *
      */
-    function __construct(Config $config)
+    function __construct()
     {
-        $this->config = $config;
+        $this->config = $this->hasValidConfig(Config::get());
     }
 
     /**
-     * @param Config $config
-     * @return Client
+     * @param ConfigContract $config
+     * @return ConfigContract
      */
-    protected function initialise(Config $config)
+    private function hasValidConfig(ConfigContract $config)
     {
-        return new self($config);
+        if (!$config) throw new ClientException("Sugar Configuration not set");
+
+        if (!$config->getUrl()) throw new ClientException("Missing SugarCRM URL");
+
+        if (!$config->getUsername()) throw new ClientException("Missing SugarCRM Username");
+
+        if (!$config->getPassword()) throw new ClientException("Missing SugarCRM Password");
+
+        if (!$config->getConsumerKey()) throw new ClientException("Missing API Consumer Key");
+
+        if (!$config->getConsumerSecret()) throw new ClientException("Missing API Consumer Secret");
+
+        return $config;
     }
 
     /**
      * @param $method
      * @param $uri
      * @param array $parameters
-     * @param null $token
      * @return array
      */
-    private function client($method, $uri, array $parameters, $token = null)
+    private function client($method, $uri, array $parameters, $token)
     {
         try
         {
@@ -61,13 +73,13 @@ class Client implements ClientContract {
 
     /**
      * @param array $parameters
-     * @param null $token
+     * @param $token
      * @return array
      */
     private function buildParameters(array $parameters, $token)
     {
         return [
-            'headers' => ['oauth-token' => $token],
+            'headers' => ['oauth-token' => $token ?: $token['access_token']],
             'body' => json_encode($parameters)
         ];
     }
@@ -75,40 +87,44 @@ class Client implements ClientContract {
     /**
      * @param $uri
      * @param array $parameters
+     * @param null $token
      * @return array
      */
-    public function get($uri, array $parameters)
+    public function get($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters);
-    }
-
-    /**
-     * @param $uri
-     * @param $parameters
-     * @return array
-     */
-    public function post($uri, array $parameters)
-    {
-        return $this->client(__FUNCTION__, $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters, $token);
     }
 
     /**
      * @param $uri
      * @param array $parameters
+     * @param null $token
      * @return array
      */
-    public function put($uri, array $parameters)
+    public function post($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters, $token);
     }
 
     /**
      * @param $uri
      * @param array $parameters
+     * @param null $token
      * @return array
      */
-    public function delete($uri, array $parameters)
+    public function put($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters);
+        return $this->client(__FUNCTION__, $uri, $parameters, $token);
+    }
+
+    /**
+     * @param $uri
+     * @param array $parameters
+     * @param null $token
+     * @return array
+     */
+    public function delete($uri, array $parameters, $token = null)
+    {
+        return $this->client(__FUNCTION__, $uri, $parameters, $token);
     }
 }

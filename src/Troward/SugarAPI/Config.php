@@ -6,25 +6,25 @@ class Config implements ConfigContract {
     /**
      * @var
      */
-    private $url;
+    private static $url;
     /**
      * @var
      */
-    private $username;
+    private static $username;
     /**
      * @var
      */
-    private $password;
+    private static $password;
 
     /**
      * @var
      */
-    private $consumerKey;
+    private static $consumerKey;
 
     /**
      * @var
      */
-    private $consumerSecret;
+    private static $consumerSecret;
 
     /**
      * @param $url
@@ -35,19 +35,34 @@ class Config implements ConfigContract {
      */
     function __construct($url, $username, $password, $consumerKey, $consumerSecret)
     {
-        $this->url = $url;
-        $this->username = $username;
-        $this->password = $password;
-        $this->consumerKey = $consumerKey;
-        $this->consumerSecret = $consumerSecret;
+        $this->setUrl($url);
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->setConsumerKey($consumerKey);
+        $this->setConsumerSecret($consumerSecret);
+    }
+
+    /**
+     * @return static
+     */
+    public static function get()
+    {
+        static $config = null;
+
+        if (null === $config)
+        {
+            $config = new static(static::getUrl(), static::getUsername(), static::getPassword(), static::getConsumerKey(), static::getConsumerSecret());
+        }
+
+        return $config;
     }
 
     /**
      * @return string
      */
-    public function getUrl()
+    public static function getUrl()
     {
-        return $this->url;
+        return static::$url;
     }
 
     /**
@@ -56,15 +71,15 @@ class Config implements ConfigContract {
      */
     public function setUrl($url)
     {
-        $this->url = $url;
+        static::$url = $url;
     }
 
     /**
      * @return string
      */
-    public function getUsername()
+    public static function getUsername()
     {
-        return $this->username;
+        return static::$username;
     }
 
     /**
@@ -73,15 +88,15 @@ class Config implements ConfigContract {
      */
     public function setUsername($username)
     {
-        $this->username = $username;
+        static::$username = $username;
     }
 
     /**
      * @return string
      */
-    public function getPassword()
+    public static function getPassword()
     {
-        return $this->password;
+        return static::$password;
     }
 
     /**
@@ -90,16 +105,16 @@ class Config implements ConfigContract {
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        static::$password = $password;
     }
 
 
     /**
      * @return mixed
      */
-    public function getConsumerKey()
+    public static function getConsumerKey()
     {
-        return $this->consumerKey;
+        return static::$consumerKey;
     }
 
     /**
@@ -108,15 +123,15 @@ class Config implements ConfigContract {
      */
     public function setConsumerKey($key)
     {
-        $this->consumerKey = $key;
+        static::$consumerKey = $key;
     }
 
     /**
      * @return mixed
      */
-    public function getConsumerSecret()
+    public static function getConsumerSecret()
     {
-        return $this->consumerSecret;
+        return static::$consumerSecret;
     }
 
     /**
@@ -125,6 +140,26 @@ class Config implements ConfigContract {
      */
     public function setConsumerSecret($secret)
     {
-        $this->consumerSecret = $secret;
+        static::$consumerSecret = $secret;
+    }
+
+    /**
+     * Private clone method to prevent cloning of the instance of the
+     * *Singleton* instance.
+     *
+     * @return void
+     */
+    private function __clone()
+    {
+    }
+
+    /**
+     * Private unserialize method to prevent unserializing of the *Singleton*
+     * instance.
+     *
+     * @return void
+     */
+    private function __wakeup()
+    {
     }
 }

@@ -2,28 +2,13 @@
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Troward\SugarAPI\Config;
 use Troward\SugarAPI\Token;
 
 /**
  * Class TokenSpec
  * @package spec\Troward\SugarAPI
  */
-class TokenSpec extends ObjectBehavior
-{
-    /**
-     * @var
-     */
-    private $config;
-
-    /**
-     *
-     */
-    function let()
-    {
-        $this->config = new Config('', '', '', '', '');
-        $this->beConstructedWith($this->config);
-    }
+class TokenSpec extends ObjectBehavior {
 
     /**
      *
@@ -36,11 +21,16 @@ class TokenSpec extends ObjectBehavior
     /**
      *
      */
+    function it_has_a_set_config()
+    {
+    }
+
+    /**
+     *
+     */
     function it_creates_a_new_token()
     {
-        $newToken = (new Token($this->config))->retrieve();
-
-        // TODO
+        new Token();
     }
 
 }

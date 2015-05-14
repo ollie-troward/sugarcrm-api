@@ -7,9 +7,14 @@
 interface ConfigContract {
 
     /**
+     * @return static
+     */
+    public static function get();
+
+    /**
      * @return string
      */
-    public function getUrl();
+    public static function getUrl();
 
     /**
      * @param $url
@@ -20,7 +25,7 @@ interface ConfigContract {
     /**
      * @return string
      */
-    public function getUsername();
+    public static function getUsername();
 
     /**
      * @param $username
@@ -31,7 +36,7 @@ interface ConfigContract {
     /**
      * @return string
      */
-    public function getPassword();
+    public static function getPassword();
 
     /**
      * @param $password
@@ -42,7 +47,7 @@ interface ConfigContract {
     /**
      * @return string
      */
-    public function getConsumerKey();
+    public static function getConsumerKey();
 
     /**
      * @param $key
@@ -53,7 +58,7 @@ interface ConfigContract {
     /**
      * @return string
      */
-    public function getConsumerSecret();
+    public static function getConsumerSecret();
 
     /**
      * @param $secret

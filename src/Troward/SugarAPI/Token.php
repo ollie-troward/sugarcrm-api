@@ -9,40 +9,66 @@ use Troward\SugarAPI\Contracts\TokenContract;
 class Token extends Client implements TokenContract {
 
     /**
-     * @var Config
-     */
-    private $config;
-    /**
-     * @var void
+     * @var
      */
     private $token;
 
     /**
-     * @param Config $config
+     *
      */
-    function __construct(Config $config)
+    function __construct()
     {
-        $this->config = $config;
-        $this->token = $this->retrieve();
+        parent::__construct();
+        $this->make();
     }
 
     /**
-     * @return mixed
+     * @return static
      */
-    public function retrieve()
+    public static function retrieve()
     {
-        $newToken = $this->initialise($this->config)->post('oauth2/token',
-            [
-                "grant_type" => 'password',
-                "client_id" => $this->config->getConsumerKey(),
-                "client_secret" => $this->config->getConsumerSecret(),
-                "username" => $this->config->getUsername(),
-                "password" => $this->config->getPassword(),
-                "platform" => "base",
-            ]
-        );
+        static $token = null;
 
-        return $this->token = $newToken['access_token'];
+        if (null === $token)
+        {
+            $token = new static;
+        }
+
+        return $token;
     }
 
+    /**
+     * @return string
+     */
+    public function make()
+    {
+        if (!empty($this->token)) return $this->token;
+
+        $newToken = $this->post('oauth2/token', $this->parameters());
+
+        return $this->token = $newToken;
+    }
+
+    /**
+     * @return array
+     */
+    private function parameters()
+    {
+        return [
+            "grant_type" => 'password',
+            "client_id" => $this->config->getConsumerKey(),
+            "client_secret" => $this->config->getConsumerSecret(),
+            "username" => $this->config->getUsername(),
+            "password" => $this->config->getPassword(),
+            "platform" => "base",
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->token['access_token'];
+    }
 }
