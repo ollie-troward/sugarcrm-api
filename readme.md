@@ -1,4 +1,4 @@
-# SugarCRM 7 REST API Wrapper
+# SugarCRM 7 REST API Wrapper - Still in Development!
 
 A cleaner and quicker option for using the SugarCRM 7 REST API (v10).
 
