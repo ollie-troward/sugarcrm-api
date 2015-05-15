@@ -90,9 +90,9 @@ class Client implements ClientContract {
      * @param null $token
      * @return array
      */
-    public function get($uri, array $parameters, $token = null)
+    public function getRequest($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters, $token);
+        return $this->client('GET', $uri, $parameters, $token);
     }
 
     /**
@@ -101,9 +101,9 @@ class Client implements ClientContract {
      * @param null $token
      * @return array
      */
-    public function post($uri, array $parameters, $token = null)
+    public function postRequest($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters, $token);
+        return $this->client('POST', $uri, $parameters, $token);
     }
 
     /**
@@ -112,9 +112,9 @@ class Client implements ClientContract {
      * @param null $token
      * @return array
      */
-    public function put($uri, array $parameters, $token = null)
+    public function putRequest($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters, $token);
+        return $this->client('PUT', $uri, $parameters, $token);
     }
 
     /**
@@ -123,8 +123,8 @@ class Client implements ClientContract {
      * @param null $token
      * @return array
      */
-    public function delete($uri, array $parameters, $token = null)
+    public function deleteRequest($uri, array $parameters, $token = null)
     {
-        return $this->client(__FUNCTION__, $uri, $parameters, $token);
+        return $this->client('DELETE', $uri, $parameters, $token);
     }
 }

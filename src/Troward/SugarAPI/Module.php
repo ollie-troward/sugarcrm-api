@@ -15,21 +15,27 @@ class Module extends Client implements ModuleContract {
     protected $module;
 
     /**
+     * @var array
+     */
+    protected $filters;
+
+    /**
      *
      */
     function __construct()
     {
-        $this->validateModule();
-        
+        $this->isModuleValid();
         parent::__construct();
     }
 
     /**
      *
      */
-    private function validateModule()
+    private function isModuleValid()
     {
         if (empty($this->module)) throw new ClientException("Module not set for request");
+
+        return true;
     }
 
     /**
@@ -64,7 +70,9 @@ class Module extends Client implements ModuleContract {
      */
     private function buildFilters(array $filters)
     {
-        return [$filters];
+        if (empty($this->filters)) return [$filters];
+
+        return [$this->filters];
     }
 
     /**
@@ -100,7 +108,7 @@ class Module extends Client implements ModuleContract {
      */
     public function retrieve($module, $limit, array $fields, array $orderBy)
     {
-        return $this->get($module, $this->buildParameters($limit, [], $fields, $orderBy), $this->token())['records'];
+        return $this->getRequest($module, $this->buildParameters($limit, [], $fields, $orderBy), $this->token())['records'];
     }
 
     /**
@@ -125,6 +133,6 @@ class Module extends Client implements ModuleContract {
      */
     public function retrieveByFilter($module, $limit, array $filters, array $fields, array $orderBy)
     {
-        return $this->get($module, $this->buildParameters($limit, $filters, $fields, $orderBy), $this->token())['records'];
+        return $this->getRequest($module, $this->buildParameters($limit, $filters, $fields, $orderBy), $this->token())['records'];
     }
 }

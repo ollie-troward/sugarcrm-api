@@ -19,7 +19,7 @@ class ClientSpec extends BaseSpec {
      */
     function it_runs_a_get_request_for_accounts()
     {
-        $this->get('Accounts', [], $this->token);
+        $this->getRequest('Accounts', [], $this->token);
     }
 
     /**

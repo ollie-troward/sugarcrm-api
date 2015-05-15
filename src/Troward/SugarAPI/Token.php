@@ -44,7 +44,7 @@ class Token extends Client implements TokenContract {
     {
         if (!empty($this->token)) return $this->token;
 
-        $newToken = $this->post('oauth2/token', $this->parameters());
+        $newToken = $this->postRequest('oauth2/token', $this->parameters());
 
         return $this->token = $newToken;
     }
