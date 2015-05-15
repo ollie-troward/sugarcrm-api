@@ -51,14 +51,11 @@ class BaseSpec extends ObjectBehavior {
      */
     protected function it_locates_and_parses_the_configuration()
     {
-        try
-        {
-            $file = file_get_contents($this->location);
-            return Yaml::parse($file);
-        } catch (\Exception $e)
-        {
-            throw new ClientException("Missing config.yml file for tests");
-        }
+        $file = @file_get_contents($this->location);
+
+        if (!$file) throw new ClientException("Missing config.yml file for tests");
+
+        return Yaml::parse($file);
     }
 
     /**
