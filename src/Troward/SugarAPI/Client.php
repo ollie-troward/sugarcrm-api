@@ -119,12 +119,11 @@ class Client implements ClientContract {
 
     /**
      * @param $uri
-     * @param array $parameters
      * @param null $token
      * @return array
      */
-    public function deleteRequest($uri, array $parameters, $token = null)
+    public function deleteRequest($uri, $token = null)
     {
-        return $this->client('DELETE', $uri, $parameters, $token);
+        return $this->client('DELETE', $uri, [], $token);
     }
 }

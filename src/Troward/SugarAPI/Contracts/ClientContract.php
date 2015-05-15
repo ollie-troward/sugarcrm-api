@@ -31,9 +31,8 @@ interface ClientContract {
 
     /**
      * @param $uri
-     * @param array $parameters
      * @param null $token
      * @return array
      */
-    public function deleteRequest($uri, array $parameters, $token = null);
+    public function deleteRequest($uri, $token = null);
 }

@@ -106,20 +106,9 @@ class Module extends Client implements ModuleContract {
      * @param $orderBy
      * @return mixed
      */
-    public function retrieve($module, $limit, array $fields, array $orderBy)
+    public function getAll($module, $limit, array $fields, array $orderBy)
     {
         return $this->getRequest($module, $this->buildParameters($limit, [], $fields, $orderBy), $this->token())['records'];
-    }
-
-    /**
-     * @param $module
-     * @param array $filter
-     * @param array $fields
-     * @return mixed
-     */
-    public function retrieveFirst($module, array $filter, array $fields)
-    {
-        return $this->retrieveByFilter($module, 1, $filter, $fields, []);
     }
 
     /**
@@ -131,8 +120,50 @@ class Module extends Client implements ModuleContract {
      * @return mixed
      * @internal param array $filter
      */
-    public function retrieveByFilter($module, $limit, array $filters, array $fields, array $orderBy)
+    public function getByFilter($module, $limit, array $filters, array $fields, array $orderBy)
     {
         return $this->getRequest($module, $this->buildParameters($limit, $filters, $fields, $orderBy), $this->token())['records'];
+    }
+
+    /**
+     * @param $module
+     * @param array $filter
+     * @param array $fields
+     * @return mixed
+     */
+    public function getFirst($module, array $filter, array $fields)
+    {
+        return $this->getByFilter($module, 1, $filter, $fields, []);
+    }
+
+    /**
+     * @param $module
+     * @param array $fields
+     * @return array
+     */
+    public function post($module, array $fields)
+    {
+        return $this->postRequest($module, $fields, $this->token());
+    }
+
+    /**
+     * @param $module
+     * @param $id
+     * @param array $fields
+     * @return array
+     */
+    public function put($module, $id, array $fields)
+    {
+        return $this->putRequest($module . "/" . $id, $fields, $this->token());
+    }
+
+    /**
+     * @param $module
+     * @param $id
+     * @return array
+     */
+    public function deleteById($module, $id)
+    {
+        return $this->deleteRequest($module . "/" . $id, $this->token());
     }
 }

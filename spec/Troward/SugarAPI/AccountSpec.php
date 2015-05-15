@@ -26,7 +26,7 @@ class AccountSpec extends BaseSpec {
      */
     function it_retrieves_all_accounts()
     {
-        $this->all($this->limit, [], []);
+        $this->all($this->limit);
     }
 
     /**
@@ -51,5 +51,29 @@ class AccountSpec extends BaseSpec {
     function it_allows_multiple_filters()
     {
         $this->where('name', 'valid_account_name')->get();
+    }
+
+    /**
+     *
+     */
+    function it_creates_a_new_account()
+    {
+        // $this->create(); Working
+    }
+
+    /**
+     *
+     */
+    function it_updates_an_existing_account()
+    {
+        // $this->update('existing_id', ['name' => 'new_name']); Working
+    }
+
+    /**
+     *
+     */
+    function it_deletes_an_existing_account()
+    {
+        // $this->delete('existing_id'); Working
     }
 }

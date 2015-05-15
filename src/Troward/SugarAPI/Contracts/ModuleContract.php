@@ -13,7 +13,7 @@ interface ModuleContract {
      * @param $orderBy
      * @return mixed
      */
-    public function retrieve($module, $limit, array $fields, array $orderBy);
+    public function getAll($module, $limit, array $fields, array $orderBy);
 
     /**
      * @param $module
@@ -21,7 +21,7 @@ interface ModuleContract {
      * @param array $fields
      * @return mixed
      */
-    public function retrieveFirst($module, array $filter, array $fields);
+    public function getFirst($module, array $filter, array $fields);
 
     /**
      * @param $module
@@ -31,5 +31,27 @@ interface ModuleContract {
      * @param array $orderBy
      * @return mixed
      */
-    public function retrieveByFilter($module, $limit, array $filter, array $fields, array $orderBy);
+    public function getByFilter($module, $limit, array $filter, array $fields, array $orderBy);
+
+    /**
+     * @param $module
+     * @param array $fields
+     * @return mixed
+     */
+    public function post($module, array $fields);
+
+    /**
+     * @param $module
+     * @param $id
+     * @param array $fields
+     * @return mixed
+     */
+    public function put($module, $id, array $fields);
+
+    /**
+     * @param $module
+     * @param $id
+     * @return mixed
+     */
+    public function deleteById($module, $id);
 }

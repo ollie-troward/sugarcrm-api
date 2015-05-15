@@ -14,6 +14,20 @@ class BaseModule extends Module implements BaseModuleContract {
     protected $filters;
 
     /**
+     * @var
+     */
+    public $fields;
+
+    /**
+     * @param $fields
+     */
+    function __construct($fields = [])
+    {
+        parent::__construct();
+        $this->fields = $fields;
+    }
+
+    /**
      * @param int $limit
      * @param array $fields
      * @param array $orderBy
@@ -21,7 +35,7 @@ class BaseModule extends Module implements BaseModuleContract {
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->retrieve($this->module, $limit, $fields, $orderBy);
+        return $this->getAll($this->module, $limit, $fields, $orderBy);
     }
 
     /**
@@ -32,18 +46,7 @@ class BaseModule extends Module implements BaseModuleContract {
      */
     public function find($key, $value, $fields = [])
     {
-        return $this->retrieveFirst($this->module, [$key => $value], $fields);
-    }
-
-    /**
-     * @param int $limit
-     * @param array $fields
-     * @param $orderBy
-     * @return mixed
-     */
-    public function get($limit = 500, $fields = [], $orderBy = [])
-    {
-        return $this->retrieve($this->module, $limit, $fields, $orderBy);
+        return $this->getFirst($this->module, [$key => $value], $fields);
     }
 
     /**
@@ -58,5 +61,48 @@ class BaseModule extends Module implements BaseModuleContract {
         $this->filters['$and'][] = [$key => $value];
 
         return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @param array $fields
+     * @param $orderBy
+     * @return mixed
+     */
+    public function get($limit = 500, $fields = [], $orderBy = [])
+    {
+        return $this->getAll($this->module, $limit, $fields, $orderBy);
+    }
+
+    /**
+     * @param array $fields
+     * @return mixed
+     */
+    public function create(array $fields)
+    {
+        $fields = array_merge($this->fields, $fields);
+
+        return $this->post($this->module, $fields);
+    }
+
+    /**
+     * @param array $id
+     * @param array $fields
+     * @return mixed
+     */
+    public function update($id, array $fields)
+    {
+        $fields = array_merge($this->fields, $fields);
+
+        return $this->put($this->module, $id, $fields);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        return $this->deleteById($this->module, $id);
     }
 }

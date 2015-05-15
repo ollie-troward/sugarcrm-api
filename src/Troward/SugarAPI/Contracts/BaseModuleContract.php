@@ -22,6 +22,25 @@ interface BaseModuleContract {
     public function get($limit = 500, $fields = [], $orderBy = []);
 
     /**
+     * @param array $fields
+     * @return mixed
+     */
+    public function create(array $fields);
+
+    /**
+     * @param $id
+     * @param array $fields
+     * @return mixed
+     */
+    public function update($id, array $fields);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id);
+
+    /**
      * @param $key
      * @param $value
      * @param array $fields
