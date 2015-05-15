@@ -152,14 +152,4 @@ class Config implements ConfigContract {
     private function __clone()
     {
     }
-
-    /**
-     * Private unserialize method to prevent unserializing of the *Singleton*
-     * instance.
-     *
-     * @return void
-     */
-    private function __wakeup()
-    {
-    }
 }

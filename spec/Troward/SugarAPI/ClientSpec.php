@@ -1,13 +1,10 @@
 <?php namespace spec\Troward\SugarAPI;
 
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-
 /**
  * Class ClientSpec
  * @package spec\Troward\SugarAPI
  */
-class ClientSpec extends ObjectBehavior {
+class ClientSpec extends BaseSpec {
 
     /**
      *
@@ -15,5 +12,21 @@ class ClientSpec extends ObjectBehavior {
     function it_is_initializable()
     {
         $this->shouldHaveType('Troward\SugarAPI\Client');
+    }
+
+    /**
+     *
+     */
+    function it_runs_a_get_request_for_accounts()
+    {
+        $this->get('Accounts', [], $this->token);
+    }
+
+    /**
+     *
+     */
+    function it_runs_a_post_request_for_a_token()
+    {
+        // TODO $this->post('oauth2/token', [], null);
     }
 }

@@ -12,11 +12,17 @@
     "guzzlehttp/guzzle": "^5.2"
   },
   "require-dev": {
-    "phpspec/phpspec": "2.0"
+    "phpspec/phpspec": "2.0",
+    "symfony/config": "^2.6"
   },
   "autoload": {
     "psr-0": {
-      "Troward": "src/"
+      "Troward\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "spec\\": ""
     }
   },
   "config": {
