@@ -1,15 +1,35 @@
 <?php namespace Troward\SugarAPI;
 
 use Troward\SugarAPI\Contracts\ModuleContract;
+use Troward\SugarAPI\Exceptions\ClientException;
 
+/**
+ * Class Module
+ * @package Troward\SugarAPI
+ */
 class Module extends Client implements ModuleContract {
 
     /**
-     * @param $name
+     * @var string
      */
-    function __construct($name = null)
+    protected $module;
+
+    /**
+     *
+     */
+    function __construct()
     {
+        $this->validateModule();
+        
         parent::__construct();
+    }
+
+    /**
+     *
+     */
+    private function validateModule()
+    {
+        if (empty($this->module)) throw new ClientException("Module not set for request");
     }
 
     /**
@@ -22,18 +42,29 @@ class Module extends Client implements ModuleContract {
 
     /**
      * @param array $limit
+     * @param array $filters
      * @param array $fields
      * @param array $orderBy
      * @return array
      */
-    private function buildParameters($limit, array $fields, array $orderBy)
+    private function buildParameters($limit, array $filters, array $fields, array $orderBy)
     {
         return [
+            'filter' => $this->buildFilters($filters),
             'max_num' => $limit,
             'offset' => 0,
             'fields' => $this->buildFields($fields),
             'order_by' => $this->buildOrderBy($orderBy),
         ];
+    }
+
+    /**
+     * @param array $filters
+     * @return array
+     */
+    private function buildFilters(array $filters)
+    {
+        return [$filters];
     }
 
     /**
@@ -62,17 +93,6 @@ class Module extends Client implements ModuleContract {
 
     /**
      * @param $module
-     * @param array $filter
-     * @param array $fields
-     * @return mixed
-     */
-    public function find($module, array $filter, array $fields)
-    {
-        // TODO: Implement find() method.
-    }
-
-    /**
-     * @param $module
      * @param $limit
      * @param $fields
      * @param $orderBy
@@ -80,19 +100,31 @@ class Module extends Client implements ModuleContract {
      */
     public function retrieve($module, $limit, array $fields, array $orderBy)
     {
-        return $this->get($module, $this->buildParameters($limit, $fields, $orderBy), $this->token())['records'];
+        return $this->get($module, $this->buildParameters($limit, [], $fields, $orderBy), $this->token())['records'];
+    }
+
+    /**
+     * @param $module
+     * @param array $filter
+     * @param array $fields
+     * @return mixed
+     */
+    public function retrieveFirst($module, array $filter, array $fields)
+    {
+        return $this->retrieveByFilter($module, 1, $filter, $fields, []);
     }
 
     /**
      * @param $module
      * @param $limit
-     * @param array $filter
+     * @param array $filters
      * @param array $fields
      * @param array $orderBy
      * @return mixed
+     * @internal param array $filter
      */
-    public function retrieveByFilter($module, $limit, array $filter, array $fields, array $orderBy)
+    public function retrieveByFilter($module, $limit, array $filters, array $fields, array $orderBy)
     {
-        // TODO: Implement retrieveByFilter() method.
+        return $this->get($module, $this->buildParameters($limit, $filters, $fields, $orderBy), $this->token())['records'];
     }
 }

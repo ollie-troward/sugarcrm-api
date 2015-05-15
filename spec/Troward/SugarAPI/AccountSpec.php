@@ -22,8 +22,24 @@ class AccountSpec extends BaseSpec {
     /**
      *
      */
-    function it_retrieves_all_records_with_a_limit()
+    function it_retrieves_all_accounts()
     {
         $this->all($this->limit, [], []);
+    }
+
+    /**
+     *
+     */
+    function it_retrieves_the_first_account()
+    {
+        $this->find('id', 'valid_id')->shouldHaveCount(1);
+    }
+
+    /**
+     *
+     */
+    function it_fails_to_retrieve_any_accounts()
+    {
+        $this->find('id', 'not_valid_id')->shouldHaveCount(0);
     }
 }

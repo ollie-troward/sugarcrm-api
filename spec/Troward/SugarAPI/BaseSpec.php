@@ -43,6 +43,7 @@ class BaseSpec extends ObjectBehavior {
     function it_needs_the_configuration_to_be_set()
     {
         $this->config = $this->it_locates_and_parses_the_configuration();
+
         new Config($this->config['url'], $this->config['username'], $this->config['password'], $this->config['consumer_key'], $this->config['consumer_secret']);
     }
 
