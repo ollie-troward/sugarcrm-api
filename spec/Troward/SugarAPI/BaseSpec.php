@@ -4,6 +4,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Yaml\Yaml;
 use Troward\SugarAPI\Config;
+use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Token;
 
 /**
@@ -50,7 +51,11 @@ class BaseSpec extends ObjectBehavior {
      */
     protected function it_locates_and_parses_the_configuration()
     {
-        return Yaml::parse(file_get_contents($this->location));
+        $file = file_get_contents($this->location);
+
+        if (!$file) throw new ClientException("Missing config.yml file for tests");
+
+        return Yaml::parse($file);
     }
 
     /**
