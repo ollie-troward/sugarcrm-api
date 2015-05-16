@@ -23,6 +23,11 @@ Usage
     $account = new Troward\SugarAPI\Account();
     $account->all(500); // Returns 500 Account records
 
+Testing
+------------
+
+If you wish to run the tests yourself, PHPSpec currently uses environment variables for configuration.
+
 Licence
 -------
 The SugarCRM 7 API Wrapper is open-sourced software licensed under the [MIT Licence](http://opensource.org/licenses/MIT).
