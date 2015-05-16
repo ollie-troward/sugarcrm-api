@@ -9,17 +9,23 @@ use Troward\SugarAPI\Contracts\BaseModuleContract;
 class BaseModule extends Module implements BaseModuleContract {
 
     /**
+     * Filters appended.
+     *
      * @var array
      */
     protected $filters;
 
     /**
-     * @var
+     * Fields included for creating a new record.
+     *
+     * @var array
      */
     public $fields;
 
     /**
-     * @param $fields
+     * Fields included for creating a new record.
+     *
+     * @param array $fields
      */
     function __construct($fields = [])
     {
@@ -28,10 +34,12 @@ class BaseModule extends Module implements BaseModuleContract {
     }
 
     /**
+     * Returns all records
+     *
      * @param int $limit
      * @param array $fields
      * @param array $orderBy
-     * @return mixed
+     * @return array
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
@@ -39,10 +47,63 @@ class BaseModule extends Module implements BaseModuleContract {
     }
 
     /**
+     * Returns all records based on existing filters
+     *
+     * @param int $limit
+     * @param array $fields
+     * @param array $orderBy
+     * @return array
+     */
+    public function get($limit = 500, $fields = [], $orderBy = [])
+    {
+        return $this->getAll($this->module, $limit, $fields, $orderBy);
+    }
+
+    /**
+     * Creates a new record
+     *
+     * @param array $fields
+     * @return array
+     */
+    public function create(array $fields)
+    {
+        $fields = array_merge($this->fields, $fields);
+
+        return $this->post($this->module, $fields);
+    }
+
+    /**
+     * Updates an existing record based on 'id'
+     *
+     * @param $id
+     * @param array $fields
+     * @return array
+     */
+    public function update($id, array $fields)
+    {
+        $fields = array_merge($this->fields, $fields);
+
+        return $this->put($this->module, $id, $fields);
+    }
+
+    /**
+     * Deletes an existing record based on 'id'
+     *
+     * @param $id
+     * @return array
+     */
+    public function delete($id)
+    {
+        return $this->deleteById($this->module, $id);
+    }
+
+    /**
+     * Finds the first record
+     *
      * @param $key
      * @param $value
      * @param array $fields
-     * @return mixed
+     * @return array
      */
     public function find($key, $value, $fields = [])
     {
@@ -50,6 +111,8 @@ class BaseModule extends Module implements BaseModuleContract {
     }
 
     /**
+     * Appends a filter to the query
+     *
      * @param $key
      * @param $value
      * @return $this
@@ -61,48 +124,5 @@ class BaseModule extends Module implements BaseModuleContract {
         $this->filters['$and'][] = [$key => $value];
 
         return $this;
-    }
-
-    /**
-     * @param int $limit
-     * @param array $fields
-     * @param $orderBy
-     * @return mixed
-     */
-    public function get($limit = 500, $fields = [], $orderBy = [])
-    {
-        return $this->getAll($this->module, $limit, $fields, $orderBy);
-    }
-
-    /**
-     * @param array $fields
-     * @return mixed
-     */
-    public function create(array $fields)
-    {
-        $fields = array_merge($this->fields, $fields);
-
-        return $this->post($this->module, $fields);
-    }
-
-    /**
-     * @param array $id
-     * @param array $fields
-     * @return mixed
-     */
-    public function update($id, array $fields)
-    {
-        $fields = array_merge($this->fields, $fields);
-
-        return $this->put($this->module, $id, $fields);
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id)
-    {
-        return $this->deleteById($this->module, $id);
     }
 }

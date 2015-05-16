@@ -2,6 +2,5 @@
 /vendor
 composer.phar
 composer.lock
-config.yml
 .DS_Store
 Thumbs.db

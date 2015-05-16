@@ -14,6 +14,16 @@ class Token extends Client implements TokenContract {
     private $token;
 
     /**
+     * @var string
+     */
+    private $loginUri = "oauth2/token";
+
+    /**
+     * @var string
+     */
+    private $logoutUri = "oauth2/logout";
+
+    /**
      *
      */
     function __construct()
@@ -44,9 +54,19 @@ class Token extends Client implements TokenContract {
     {
         if (!empty($this->token)) return $this->token;
 
-        $newToken = $this->postRequest('oauth2/token', $this->parameters());
+        $newToken = $this->postRequest($this->loginUri, $this->parameters());
 
         return $this->token = $newToken;
+    }
+
+    /**
+     * @return true
+     */
+    public function destroy()
+    {
+        if (!empty($this->token)) $this->postRequest($this->logoutUri, []);
+
+        return true;
     }
 
     /**
@@ -55,7 +75,7 @@ class Token extends Client implements TokenContract {
     private function parameters()
     {
         return [
-            "grant_type" => 'password',
+            "grant_type" => "password",
             "client_id" => $this->config->getConsumerKey(),
             "client_secret" => $this->config->getConsumerSecret(),
             "username" => $this->config->getUsername(),

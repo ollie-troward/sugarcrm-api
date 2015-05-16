@@ -15,4 +15,9 @@ interface TokenContract {
      * @return static
      */
     public function make();
+
+    /**
+     * @return true
+     */
+    public function destroy();
 }

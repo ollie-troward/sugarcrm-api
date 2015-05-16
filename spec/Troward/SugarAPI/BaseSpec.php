@@ -24,11 +24,6 @@ class BaseSpec extends ObjectBehavior {
     protected $config;
 
     /**
-     * @var string
-     */
-    protected $location = "config.yml";
-
-    /**
      *
      */
     function __construct()
@@ -44,7 +39,7 @@ class BaseSpec extends ObjectBehavior {
     {
         $this->config = $this->it_locates_and_parses_the_configuration();
 
-        new Config($this->config['url'], $this->config['username'], $this->config['password'], $this->config['consumer_key'], $this->config['consumer_secret']);
+        new Config(getenv('url'), getenv('username'), getenv('password'), getenv('consumer_key'), getenv('consumer_secret'));
     }
 
     /**

@@ -12,6 +12,8 @@ use GuzzleHttp\Client as GuzzleClient;
 class Client implements ClientContract {
 
     /**
+     * Configuration used for sending HTTP Requests
+     *
      * @var Config
      */
     protected $config;
@@ -25,6 +27,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Validates Configuration before running
+     *
      * @param ConfigContract $config
      * @return ConfigContract
      */
@@ -46,9 +50,12 @@ class Client implements ClientContract {
     }
 
     /**
+     * Runs the HTTP Request
+     *
      * @param $method
      * @param $uri
      * @param array $parameters
+     * @param $token
      * @return array
      */
     private function client($method, $uri, array $parameters, $token)
@@ -63,6 +70,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Builds the URL
+     *
      * @param $uri
      * @return string
      */
@@ -72,6 +81,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Builds the HTTP Request Parameters
+     *
      * @param array $parameters
      * @param $token
      * @return array
@@ -85,6 +96,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Sends a GET Request
+     *
      * @param $uri
      * @param array $parameters
      * @param null $token
@@ -96,6 +109,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Sends a POST Request
+     *
      * @param $uri
      * @param array $parameters
      * @param null $token
@@ -107,6 +122,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Sends a PUT Request
+     *
      * @param $uri
      * @param array $parameters
      * @param null $token
@@ -118,6 +135,8 @@ class Client implements ClientContract {
     }
 
     /**
+     * Sends a DELETE Request
+     *
      * @param $uri
      * @param null $token
      * @return array
