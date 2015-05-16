@@ -100,6 +100,30 @@ class Module extends Client implements ModuleContract {
     }
 
     /**
+     * @param array $result
+     * @return $this
+     */
+    protected function setModuleProperties(array $result)
+    {
+        foreach ($result as $property => $value)
+        {
+            $this->$property = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return true
+     */
+    protected function moduleExists()
+    {
+        if (!isset($this->id)) throw new ClientException("No record specified for " . $this->module);
+
+        return true;
+    }
+
+    /**
      * @param $module
      * @param $limit
      * @param $fields
@@ -139,31 +163,46 @@ class Module extends Client implements ModuleContract {
     /**
      * @param $module
      * @param array $fields
+     * @param string $uri
      * @return array
      */
-    public function post($module, array $fields)
+    public function post($module, array $fields, $uri = "")
     {
-        return $this->postRequest($module, $fields, $this->token());
+        return $this->postRequest($module . "/" . $uri, $fields, $this->token());
     }
 
     /**
      * @param $module
      * @param $id
      * @param array $fields
+     * @param string $uri
      * @return array
      */
-    public function put($module, $id, array $fields)
+    public function postWithId($module, $id, array $fields, $uri = "")
     {
-        return $this->putRequest($module . "/" . $id, $fields, $this->token());
+        return $this->postRequest($module . "/" . $id . "/" . $uri, $fields, $this->token());
     }
 
     /**
      * @param $module
      * @param $id
+     * @param array $fields
+     * @param $uri
      * @return array
      */
-    public function deleteById($module, $id)
+    public function put($module, $id, array $fields, $uri = "")
     {
-        return $this->deleteRequest($module . "/" . $id, $this->token());
+        return $this->putRequest($module . "/" . $id . "/" . $uri, $fields, $this->token());
+    }
+
+    /**
+     * @param $module
+     * @param $id
+     * @param string $uri
+     * @return array
+     */
+    public function deleteById($module, $id, $uri = "")
+    {
+        return $this->deleteRequest($module . "/" . $id . "/" . $uri, $this->token());
     }
 }

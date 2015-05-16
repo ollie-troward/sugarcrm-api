@@ -68,4 +68,24 @@ interface BaseModuleContract {
      * @return $this
      */
     public function where($key, $value);
+
+    /**
+     * @return bool
+     */
+    public function favorite();
+
+    /**
+     * @return bool
+     */
+    public function unfavorite();
+
+    /**
+     * @return bool
+     */
+    public function subscribe();
+
+    /**
+     * @return bool
+     */
+    public function unsubscribe();
 }

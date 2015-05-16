@@ -1,4 +1,5 @@
 <?php namespace spec\Troward\SugarAPI;
+use Troward\SugarAPI\Account;
 
 /**
  * Class AccountSpec
@@ -37,7 +38,7 @@ class AccountSpec extends BaseSpec {
      */
     function it_retrieves_the_first_account()
     {
-        $this->find('id', getenv('valid_account_id'))->shouldHaveCount(1);
+        $this->find('id', getenv('valid_account_id'))->shouldReturnAnInstanceOf('Troward\SugarAPI\Account');
     }
 
     /**
@@ -54,5 +55,37 @@ class AccountSpec extends BaseSpec {
     function it_allows_multiple_filters_and_returns_an_account()
     {
         $this->where('name', getenv('valid_account_name'))->where('id', getenv('valid_account_id'))->get()->shouldNotHaveCount(0);
+    }
+
+    /**
+     * You can subscribe to an account
+     */
+    function it_can_subscribe_to_an_account()
+    {
+        $this->find('id', getenv('valid_account_id'))->subscribe();
+    }
+
+    /**
+     * You can unsubscribe to an account
+     */
+    function it_can_unsubscribe_to_an_account()
+    {
+        $this->find('id', getenv('valid_account_id'))->unsubscribe();
+    }
+
+    /**
+     * You can favourite to an account
+     */
+    function it_can_favourite_to_an_account()
+    {
+        $this->find('id', getenv('valid_account_id'))->favorite();
+    }
+
+    /**
+     * You can unfavourite to an account
+     */
+    function it_can_unfavourite_to_an_account()
+    {
+        $this->find('id', getenv('valid_account_id'))->unfavorite();
     }
 }

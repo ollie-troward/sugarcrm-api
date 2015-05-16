@@ -1,6 +1,7 @@
 <?php namespace Troward\SugarAPI;
 
 use Troward\SugarAPI\Contracts\BaseModuleContract;
+use Troward\SugarAPI\Exceptions\ClientException;
 
 /**
  * Class BaseModule
@@ -103,11 +104,15 @@ class BaseModule extends Module implements BaseModuleContract {
      * @param $key
      * @param $value
      * @param array $fields
-     * @return array
+     * @return $this
      */
     public function find($key, $value, $fields = [])
     {
-        return $this->getFirst($this->module, [$key => $value], $fields);
+        $results = $this->getFirst($this->module, [$key => $value], $fields);
+
+        if (empty($results)) return $results;
+
+        return $this->setModuleProperties($results[0]);
     }
 
     /**
@@ -124,5 +129,53 @@ class BaseModule extends Module implements BaseModuleContract {
         $this->filters['$and'][] = [$key => $value];
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function favorite()
+    {
+        $this->moduleExists();
+
+        $this->put($this->module, $this->id, [], __FUNCTION__);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function unfavorite()
+    {
+        $this->moduleExists();
+
+        $this->put($this->module, $this->id, [], __FUNCTION__);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function subscribe()
+    {
+        $this->moduleExists();
+
+        $this->postWithId($this->module, $this->id, [], __FUNCTION__);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function unsubscribe()
+    {
+        $this->moduleExists();
+
+        $this->deleteById($this->module, $this->id, __FUNCTION__);
+
+        return true;
     }
 }

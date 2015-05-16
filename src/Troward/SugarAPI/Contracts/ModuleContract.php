@@ -36,22 +36,34 @@ interface ModuleContract {
     /**
      * @param $module
      * @param array $fields
+     * @param string $uri
      * @return mixed
      */
-    public function post($module, array $fields);
+    public function post($module, array $fields, $uri = "");
 
     /**
      * @param $module
      * @param $id
      * @param array $fields
+     * @param string $uri
      * @return mixed
      */
-    public function put($module, $id, array $fields);
+    public function postWithId($module, $id, array $fields, $uri = "");
 
     /**
      * @param $module
      * @param $id
+     * @param array $fields
+     * @param string $uri
      * @return mixed
      */
-    public function deleteById($module, $id);
+    public function put($module, $id, array $fields, $uri = "");
+
+    /**
+     * @param $module
+     * @param $id
+     * @param string $uri
+     * @return mixed
+     */
+    public function deleteById($module, $id, $uri = "");
 }
