@@ -18,7 +18,7 @@ Usage
 ------------
 
     # Enter your details
-    new Troward\SugarAPI\Config('<your_url>','<your_username>','<your_password','<your_consumer_key>','<your_consumer_secret>');
+    new Troward\SugarAPI\Config('<your_url>','<your_username>','<your_password>','<your_consumer_key>','<your_consumer_secret>');
     
     # Generate a new token
     new Troward\SugarAPI\Token();
