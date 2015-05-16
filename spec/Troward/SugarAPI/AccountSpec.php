@@ -37,7 +37,7 @@ class AccountSpec extends BaseSpec {
      */
     function it_retrieves_the_first_account()
     {
-        $this->find('id', 'valid_id')->shouldHaveCount(1);
+        $this->find('id', getenv('valid_account_id'))->shouldHaveCount(1);
     }
 
     /**
@@ -53,7 +53,7 @@ class AccountSpec extends BaseSpec {
      */
     function it_allows_multiple_filters_and_returns_an_account()
     {
-        $this->where('name', 'valid_account_name')->where('id', 'valid_id')->get()->shouldNotHaveCount(0);
+        $this->where('name', getenv('valid_account_name'))->where('id', getenv('valid_account_id'))->get()->shouldNotHaveCount(0);
     }
 
     /**
