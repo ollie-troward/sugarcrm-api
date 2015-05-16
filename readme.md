@@ -1,8 +1,5 @@
 # SugarCRM 7 REST API Wrapper
 
-Still In Development!
-------------
-
 [![Build Status](https://travis-ci.org/ollie-troward/sugarcrm-api.svg?branch=develop)](https://travis-ci.org/ollie-troward/sugarcrm-api)
 
 A cleaner and quicker option for using the SugarCRM 7 REST API (v10).

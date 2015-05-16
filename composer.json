@@ -1,27 +1,32 @@
 {
-  "name": "troward/sugarapi",
-  "description": "SugarCRM 7 API Wrapper",
-  "keywords": [
-    "sugarcrm",
-    "api",
-    "wrapper",
-    "troward"
-  ],
+  "name": "troward/sugarcrm-api",
+  "description": "SugarCRM 7 REST API Wrapper",
+  "keywords": ["sugarcrm", "7", "rest", "api", "wrapper", "troward"],
+  "type": "library",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Ollie Troward",
+      "email": "ollie@ollietroward.com",
+      "homepage": "http://ollietroward.com",
+      "role": "Developer"
+    }
+  ],
   "require": {
+    "php": ">=5.4.0",
     "guzzlehttp/guzzle": "^5.2"
   },
   "require-dev": {
     "phpspec/phpspec": "2.0"
   },
   "autoload": {
-    "psr-0": {
-      "Troward\\": "src/"
+    "psr-4": {
+      "Troward\\SugarAPI\\": "src/Troward/SugarAPI/"
     }
   },
   "autoload-dev": {
-    "psr-0": {
-      "spec\\": ""
+    "psr-4": {
+      "spec\\": "spec/"
     }
   },
   "config": {
