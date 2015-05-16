@@ -35,6 +35,7 @@ class TokenSpec extends BaseSpec {
      */
     function it_should_destroy_the_session()
     {
+        $this->make()->shouldBeArray();
         $this->destroy()->shouldReturn(true);
     }
 
