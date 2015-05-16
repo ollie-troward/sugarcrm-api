@@ -55,28 +55,4 @@ class AccountSpec extends BaseSpec {
     {
         $this->where('name', getenv('valid_account_name'))->where('id', getenv('valid_account_id'))->get()->shouldNotHaveCount(0);
     }
-
-    /**
-     * Creates a new record
-     */
-    function it_creates_a_new_account()
-    {
-        // $this->create(['name' => 'new_name', 'description' => 'new_description'])->shouldHaveCount(1);
-    }
-
-    /**
-     * Updates an existing record
-     */
-    function it_updates_an_existing_account()
-    {
-        // $this->update('existing_id', ['name' => 'new_name'])->shouldHaveCount(1);
-    }
-
-    /**
-     * Deletes an existing record
-     */
-    function it_deletes_an_existing_account()
-    {
-        // $this->delete('existing_id')->shouldHaveCount(1);
-    }
 }

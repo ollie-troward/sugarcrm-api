@@ -64,7 +64,7 @@ class Token extends Client implements TokenContract {
      */
     public function destroy()
     {
-        if (!empty($this->token)) $this->postRequest($this->logoutUri, []);
+        if (!empty($this->token)) $this->postRequest($this->logoutUri, [], $this->token['access_token']);
 
         return true;
     }

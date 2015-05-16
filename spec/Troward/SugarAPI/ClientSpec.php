@@ -21,28 +21,4 @@ class ClientSpec extends BaseSpec {
     {
         $this->getRequest('Accounts', [], $this->token)->shouldNotHaveCount(0);
     }
-
-    /**
-     *
-     */
-    function it_runs_a_post_request_for_a_new_account()
-    {
-        // $this->postRequest('Accounts', ['name' => 'new_name'], null);
-    }
-
-    /**
-     *
-     */
-    function it_runs_a_put_request_to_update_an_account()
-    {
-        // $this->putRequest('Account/valid_id', ['name' => 'new_name'], null);
-    }
-
-    /**
-     *
-     */
-    function it_runs_a_delete_request_to_delete_an_account()
-    {
-        // $this->deleteRequest('Account/valid_id', [], null);
-    }
 }
