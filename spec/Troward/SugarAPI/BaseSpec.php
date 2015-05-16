@@ -43,6 +43,6 @@ class BaseSpec extends ObjectBehavior {
      */
     protected function it_needs_a_token()
     {
-        $this->token = new Token();
+        $this->token = Token::retrieve();
     }
 }
