@@ -1,7 +1,7 @@
 {
   "name": "troward/sugarcrm-api",
   "description": "SugarCRM 7 REST API Wrapper",
-  "keywords": ["sugarcrm", "7", "rest", "api", "wrapper", "troward"],
+  "keywords": ["sugarcrm", "7", "rest", "api", "wrapper", "oauth", "troward"],
   "type": "library",
   "license": "MIT",
   "authors": [
