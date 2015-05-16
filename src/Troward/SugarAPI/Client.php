@@ -34,8 +34,6 @@ class Client implements ClientContract {
      */
     private function hasValidConfig(ConfigContract $config)
     {
-        if (!$config) throw new ClientException("Sugar Configuration not set");
-
         if (!$config->getUrl()) throw new ClientException("Missing SugarCRM URL");
 
         if (!$config->getUsername()) throw new ClientException("Missing SugarCRM Username");
