@@ -30,7 +30,7 @@ Usage
 Testing
 ------------
 
-If you wish to run the tests yourself, PHPSpec currently uses environment variables for configuration.
+If you wish to run the tests yourself, the PHPSpec test cases currently uses environment variables for configuration.
 
 Licence
 -------
