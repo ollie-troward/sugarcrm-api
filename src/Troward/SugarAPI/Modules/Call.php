@@ -1,8 +1,10 @@
-<?php namespace Troward\SugarAPI;
+<?php namespace Troward\SugarAPI\Modules;
+
+use Troward\SugarAPI\BaseModule;
 
 /**
  * Class Call
- * @package Troward\SugarAPI
+ * @package Troward\SugarAPI\Modules
  */
 class Call extends BaseModule {
     /**

@@ -1,8 +1,10 @@
-<?php namespace Troward\SugarAPI;
+<?php namespace Troward\SugarAPI\Modules;
+
+use Troward\SugarAPI\BaseModule;
 
 /**
  * Class Meeting
- * @package Troward\SugarAPI
+ * @package Troward\SugarAPI\Modules
  */
 class Meeting extends BaseModule {
     /**

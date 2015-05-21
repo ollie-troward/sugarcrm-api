@@ -1,7 +1,6 @@
 <?php namespace Troward\SugarAPI;
 
 use Troward\SugarAPI\Contracts\BaseModuleContract;
-use Troward\SugarAPI\Exceptions\ClientException;
 
 /**
  * Class BaseModule
@@ -21,7 +20,7 @@ class BaseModule extends Module implements BaseModuleContract {
      *
      * @var array
      */
-    public $fields;
+    protected $fields;
 
     /**
      * Fields included for creating a new record.
@@ -31,7 +30,10 @@ class BaseModule extends Module implements BaseModuleContract {
     function __construct($fields = [])
     {
         parent::__construct();
+
         $this->fields = $fields;
+
+        $this->setModuleProperties($fields);
     }
 
     /**
@@ -44,7 +46,9 @@ class BaseModule extends Module implements BaseModuleContract {
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->getAll($this->module, $limit, $fields, $orderBy);
+        $results = $this->getAll($this->module, $limit, $fields, $orderBy);
+
+        return new Result($this, $results);
     }
 
     /**
@@ -57,7 +61,9 @@ class BaseModule extends Module implements BaseModuleContract {
      */
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->getAll($this->module, $limit, $fields, $orderBy);
+        $results = $this->getAll($this->module, $limit, $fields, $orderBy);
+
+        return new Result($this, $results);
     }
 
     /**
@@ -70,7 +76,13 @@ class BaseModule extends Module implements BaseModuleContract {
     {
         $fields = array_merge($this->fields, $fields);
 
-        return $this->post($this->module, $fields);
+        $result = $this->post($this->module, $fields);
+
+        if (empty($result)) return new Result($this, $result);
+
+        $this->setModuleProperties($result[0]);
+
+        return $this;
     }
 
     /**
@@ -84,7 +96,13 @@ class BaseModule extends Module implements BaseModuleContract {
     {
         $fields = array_merge($this->fields, $fields);
 
-        return $this->put($this->module, $id, $fields);
+        $result = $this->put($this->module, $id, $fields);
+
+        if (empty($result)) return new Result($this, $result);
+
+        $this->setModuleProperties($result[0]);
+
+        return $this;
     }
 
     /**
@@ -110,9 +128,11 @@ class BaseModule extends Module implements BaseModuleContract {
     {
         $results = $this->getFirst($this->module, [$key => $value], $fields);
 
-        if (empty($results)) return $results;
+        if (empty($results)) return new Result($this, $results);
 
-        return $this->setModuleProperties($results[0]);
+        $this->setModuleProperties($results[0]);
+
+        return $this;
     }
 
     /**

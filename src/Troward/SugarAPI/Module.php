@@ -100,17 +100,15 @@ class Module extends Client implements ModuleContract {
     }
 
     /**
-     * @param array $result
-     * @return $this
+     * @param array $fields
+     * @return void
      */
-    protected function setModuleProperties(array $result)
+    protected function setModuleProperties(array $fields)
     {
-        foreach ($result as $property => $value)
+        foreach ($fields as $property => $value)
         {
             $this->$property = $value;
         }
-
-        return $this;
     }
 
     /**
