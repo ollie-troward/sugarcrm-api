@@ -1,6 +1,7 @@
 <?php namespace spec\Troward\SugarAPI\Modules;
 
 use spec\Troward\SugarAPI\BaseSpec;
+use Troward\SugarAPI\Modules\Account;
 
 /**
  * Class AccountSpec
@@ -133,7 +134,7 @@ class AccountSpec extends BaseSpec {
     /**
      * You can favourite to a record
      */
-    function it_can_favourite_to_an_record()
+    function it_can_favourite_a_record()
     {
         $this->find('id', $this->validRecordId)
             ->favorite()
@@ -143,7 +144,7 @@ class AccountSpec extends BaseSpec {
     /**
      * You can unfavourite to a record
      */
-    function it_can_unfavourite_to_a_record()
+    function it_can_unfavourite_a_record()
     {
         $this->find('id', $this->validRecordId)
             ->unfavorite()

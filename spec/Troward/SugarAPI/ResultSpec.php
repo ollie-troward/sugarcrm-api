@@ -43,11 +43,6 @@ class ResultSpec extends BaseSpec {
      */
     function it_should_contain_a_set_of_objects()
     {
-        $results = new Result(new $this->module, $this->data);
-
-        foreach ($results as $result)
-        {
-            // TODO Check Result with Spec
-        }
+        // TODO Check Result with Spec
     }
 }
