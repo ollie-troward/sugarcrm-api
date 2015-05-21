@@ -40,9 +40,9 @@ class ResultSpec extends BaseSpec {
 
     /**
      *
-     */
-    function it_should_contain_a_set_of_objects()
-    {
-        // TODO Check Result with Spec
-    }
+     * 
+     * function it_should_contain_a_set_of_objects()
+     * {
+     * // TODO Check Result with Spec
+     * } */
 }
