@@ -1,4 +1,5 @@
 <?php namespace spec\Troward\SugarAPI;
+
 use Troward\SugarAPI\Account;
 
 /**
