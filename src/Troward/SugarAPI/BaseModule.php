@@ -136,7 +136,7 @@ class BaseModule extends Module implements BaseModuleContract {
     }
 
     /**
-     * Appends a filter to the query
+     * Appends an AND filter to the query
      *
      * @param $key
      * @param $value
@@ -144,9 +144,21 @@ class BaseModule extends Module implements BaseModuleContract {
      */
     public function where($key, $value)
     {
-        if (empty($filters)) $this->filters = ['$and' => []];
-
         $this->filters['$and'][] = [$key => $value];
+
+        return $this;
+    }
+
+    /**
+     * Appends an OR filter to the query
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function orWhere($key, $value)
+    {
+        $this->filters['$or'][] = [$key => $value];
 
         return $this;
     }

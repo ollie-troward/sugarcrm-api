@@ -100,6 +100,17 @@ class AccountSpec extends BaseSpec {
     }
 
     /**
+     * Allows filtering with OR and AND
+     */
+    function it_allows_multiple_filters_with_and_or_clauses_and_returns_a_record()
+    {
+        $this->where('name', $this->validRecordName)
+            ->orWhere('id', $this->validRecordId)
+            ->get()
+            ->shouldReturnAnInstanceOf($this->result);
+    }
+
+    /**
      * You can subscribe to a record
      */
     function it_can_subscribe_to_a_record()

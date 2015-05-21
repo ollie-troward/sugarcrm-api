@@ -61,13 +61,22 @@ interface BaseModuleContract {
     public function find($key, $value, $fields = []);
 
     /**
-     * Appends a filter to the query
+     * Appends an AND filter to the query
      *
      * @param $key
      * @param $value
      * @return $this
      */
     public function where($key, $value);
+
+    /**
+     * Appends an OR filter to the query
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function orWhere($key, $value);
 
     /**
      * @return bool

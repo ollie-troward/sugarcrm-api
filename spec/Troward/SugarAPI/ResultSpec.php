@@ -47,7 +47,7 @@ class ResultSpec extends BaseSpec {
 
         foreach ($results as $result)
         {
-            var_dump($result);
+            // TODO Check Result with Spec
         }
     }
 }
