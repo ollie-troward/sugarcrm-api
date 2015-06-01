@@ -161,9 +161,36 @@ class SugarModuleSpec extends BaseSpec {
     /**
      *
      */
+    function it_can_import_a_record_list()
+    {
+        $this->import()
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     *
+     */
     function it_can_export_a_record_list()
     {
         $this->export($this->recordListId)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     *
+     */
+    function it_can_fetch_a_note_attachment()
+    {
+        $this->getAttachment()
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     *
+     */
+    function it_can_attach_a_file_to_a_note()
+    {
+        $this->setAttachment()
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }

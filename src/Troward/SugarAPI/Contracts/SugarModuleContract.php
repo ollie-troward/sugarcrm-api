@@ -121,4 +121,16 @@ interface SugarModuleContract {
      * @return array
      */
     public function export($recordListId, $limit = 500, $fields = [], $orderBy = []);
+
+    /**
+     * Imports a record list
+     *
+     * @param array $recordIds
+     * @return mixed
+     */
+    public function import(array $recordIds);
+
+    public function getAttachment();
+
+    public function setAttachment();
 }

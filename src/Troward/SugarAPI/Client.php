@@ -59,13 +59,33 @@ class Client implements ClientContract {
     protected function buildTokenParameters()
     {
         return [
-            'body' => json_encode([
+            'body' => json_encode(
+                [
                     "grant_type" => "password",
                     "client_id" => $this->config->getConsumerKey(),
                     "client_secret" => $this->config->getConsumerSecret(),
                     "username" => $this->config->getUsername(),
                     "password" => $this->config->getPassword(),
                     "platform" => "base"
+                ]
+            )
+        ];
+    }
+
+    /**
+     * Builds the HTTP Record List Request Parameters
+     *
+     * @param array $records
+     * @param Token $token
+     * @return array
+     */
+    protected function buildRecordListParameters(array $records, Token $token)
+    {
+        return [
+            'headers' => ['oauth-token' => $token->getAccessToken()],
+            'body' => json_encode(
+                [
+                    'records' => $records
                 ]
             )
         ];

@@ -1,6 +1,7 @@
 <?php namespace Troward\SugarAPI;
 
 use Troward\SugarAPI\Contracts\SugarModuleContract;
+use Troward\SugarAPI\Exceptions\SugarModuleException;
 
 /**
  * Class SugarModule
@@ -80,20 +81,6 @@ class SugarModule extends Client implements SugarModuleContract {
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
         return $this->getRequest($this->module, $this->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
-    }
-
-    /**
-     * Exports a record list
-     *
-     * @param $recordListId
-     * @param int $limit
-     * @param array $fields
-     * @param array $orderBy
-     * @return array
-     */
-    public function export($recordListId, $limit = 500, $fields = [], $orderBy = [])
-    {
-        return $this->getRequest($this->module . "/export/" . $recordListId, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
     }
 
     /**
@@ -200,5 +187,44 @@ class SugarModule extends Client implements SugarModuleContract {
     public function unsubscribe($id)
     {
         return $this->deleteRequest($this->module . "/" . $id . "/" . __FUNCTION__, $this->buildParameters(0, [], [], [], $this->token()));
+    }
+
+    /**
+     * Exports a record list
+     *
+     * @param $recordListId
+     * @param int $limit
+     * @param array $fields
+     * @param array $orderBy
+     * @return array
+     */
+    public function export($recordListId, $limit = 500, $fields = [], $orderBy = [])
+    {
+        return $this->getRequest($this->module . "/" . __FUNCTION__ . "/" . $recordListId, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
+    }
+
+    /**
+     * Imports a record list
+     *
+     * @param array $recordIds
+     * @return mixed
+     */
+    public function import(array $recordIds)
+    {
+        return $this->postRequest($this->module . "/record_list/", $this->buildRecordListParameters($recordIds, $this->token()));
+    }
+
+    public function getAttachment()
+    {
+        if ($this->module != "Notes") throw new SugarModuleException("Only allowed for the 'Notes' Module");
+
+        // TODO
+    }
+
+    public function setAttachment()
+    {
+        if ($this->module != "Notes") throw new SugarModuleException("Only allowed for the 'Notes' Module");
+
+        // TODO
     }
 }
