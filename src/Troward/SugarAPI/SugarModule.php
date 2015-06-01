@@ -80,7 +80,7 @@ class SugarModule extends Client implements SugarModuleContract {
      */
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->getRequest($this->module, $this->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
+        return $this->getRequest($this->module . "/filter", $this->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
     }
 
     /**
