@@ -1,10 +1,21 @@
 <?php namespace Troward\SugarAPI\Contracts;
 
 /**
- * Interface BaseModuleContract
+ * Interface SugarModuleContract
  * @package Troward\SugarAPI\Contracts
  */
-interface BaseModuleContract {
+interface SugarModuleContract {
+
+    /**
+     * Finds the first record by value
+     *
+     * @param $key
+     * @param $value
+     * @param array $fields
+     * @return array
+     */
+    public function find($key, $value, $fields = []);
+
     /**
      * Returns all records
      *
@@ -16,7 +27,7 @@ interface BaseModuleContract {
     public function all($limit = 500, $fields = [], $orderBy = []);
 
     /**
-     * Returns all records based on existing filters
+     * Returns all records, with any possible existing filters
      *
      * @param int $limit
      * @param array $fields
@@ -51,16 +62,6 @@ interface BaseModuleContract {
     public function delete($id);
 
     /**
-     * Finds the first record
-     *
-     * @param $key
-     * @param $value
-     * @param array $fields
-     * @return array
-     */
-    public function find($key, $value, $fields = []);
-
-    /**
      * Appends an AND filter to the query
      *
      * @param $key
@@ -79,22 +80,45 @@ interface BaseModuleContract {
     public function orWhere($key, $value);
 
     /**
+     * Favorites a record
+     *
+     * @param $id
      * @return bool
      */
-    public function favorite();
+    public function favorite($id);
 
     /**
+     * Unfavorite a record
+     *
+     * @param $id
      * @return bool
      */
-    public function unfavorite();
+    public function unfavorite($id);
 
     /**
+     * Subscribe to a record
+     *
+     * @param $id
      * @return bool
      */
-    public function subscribe();
+    public function subscribe($id);
 
     /**
+     * Unsubscribe to a record
+     *
+     * @param $id
      * @return bool
      */
-    public function unsubscribe();
+    public function unsubscribe($id);
+
+    /**
+     * Exports a record list
+     *
+     * @param $recordListId
+     * @param int $limit
+     * @param array $fields
+     * @param array $orderBy
+     * @return array
+     */
+    public function export($recordListId, $limit = 500, $fields = [], $orderBy = []);
 }

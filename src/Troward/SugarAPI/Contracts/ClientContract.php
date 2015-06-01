@@ -9,38 +9,35 @@ interface ClientContract {
      * Sends a GET Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
+     * @param array $fields
      * @return array
      */
-    public function getRequest($uri, array $parameters, $token = null);
+    public function getRequest($uri, array $fields);
 
     /**
      * Sends a POST Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
+     * @param array $fields
      * @return array
      */
-    public function postRequest($uri, array $parameters, $token = null);
+    public function postRequest($uri, array $fields);
 
     /**
      * Sends a PUT Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
+     * @param array $fields
      * @return array
      */
-    public function putRequest($uri, array $parameters, $token = null);
+    public function putRequest($uri, array $fields);
 
     /**
      * Sends a DELETE Request
      *
      * @param $uri
-     * @param null $token
+     * @param array $fields
      * @return array
      */
-    public function deleteRequest($uri, $token = null);
+    public function deleteRequest($uri, array $fields);
 }

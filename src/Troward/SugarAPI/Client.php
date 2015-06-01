@@ -1,6 +1,5 @@
 <?php namespace Troward\SugarAPI;
 
-use Troward\SugarAPI\Contracts\ConfigContract;
 use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Contracts\ClientContract;
 use GuzzleHttp\Client as GuzzleClient;
@@ -23,28 +22,81 @@ class Client implements ClientContract {
      */
     function __construct()
     {
-        $this->config = $this->hasValidConfig(Config::get());
+        $this->config = Config::get();
     }
 
     /**
-     * Validates Configuration before running
+     * Builds the HTTP Request Parameters
      *
-     * @param ConfigContract $config
-     * @return ConfigContract
+     * @param $limit
+     * @param array $filters
+     * @param array $fields
+     * @param array $orderBy
+     * @param Token $token
+     * @return array
      */
-    private function hasValidConfig(ConfigContract $config)
+    protected function buildParameters($limit, array $filters, array $fields, array $orderBy, Token $token)
     {
-        if (!$config->getUrl()) throw new ClientException("Missing SugarCRM URL");
+        return [
+            'headers' => ['oauth-token' => $token->getAccessToken()],
+            'body' => json_encode(
+                [
+                    'filter' => [$filters],
+                    'max_num' => $limit,
+                    'offset' => 0,
+                    'fields' => $this->buildFields($fields),
+                    'order_by' => $this->buildOrderBy($orderBy)
+                ]
+            )
+        ];
+    }
 
-        if (!$config->getUsername()) throw new ClientException("Missing SugarCRM Username");
+    /**
+     * Builds the HTTP Token Request Parameters
+     *
+     * @return array
+     */
+    protected function buildTokenParameters()
+    {
+        return [
+            'body' => json_encode([
+                    "grant_type" => "password",
+                    "client_id" => $this->config->getConsumerKey(),
+                    "client_secret" => $this->config->getConsumerSecret(),
+                    "username" => $this->config->getUsername(),
+                    "password" => $this->config->getPassword(),
+                    "platform" => "base"
+                ]
+            )
+        ];
+    }
 
-        if (!$config->getPassword()) throw new ClientException("Missing SugarCRM Password");
+    /**
+     * Build the parameter fields
+     *
+     * @param array $fields
+     * @return string
+     */
+    private function buildFields(array $fields)
+    {
+        return implode(" ", $fields);
+    }
 
-        if (!$config->getConsumerKey()) throw new ClientException("Missing API Consumer Key");
+    /**
+     * Build the Order By parameter
+     *
+     * @param array $orderBy
+     * @return string
+     */
+    private function buildOrderBy(array $orderBy)
+    {
+        if (empty($orderBy)) return "";
 
-        if (!$config->getConsumerSecret()) throw new ClientException("Missing API Consumer Secret");
+        $orderColumn = array_keys($orderBy)[0];
 
-        return $config;
+        $orderType = $orderBy[$orderColumn];
+
+        return $orderColumn . ":" . $orderType;
     }
 
     /**
@@ -52,15 +104,14 @@ class Client implements ClientContract {
      *
      * @param $method
      * @param $uri
-     * @param array $parameters
-     * @param $token
-     * @return array
+     * @param $parameters
+     * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    private function client($method, $uri, array $parameters, $token)
+    private function client($method, $uri, $parameters)
     {
         try
         {
-            return (new GuzzleClient)->$method($this->buildUrl($uri), $this->buildParameters($parameters, $token))->json();
+            return (new GuzzleClient)->$method($this->config->getUrl() . "/" . $uri, $parameters);
         } catch (\RuntimeException $e)
         {
             throw new ClientException($e->getMessage());
@@ -68,79 +119,50 @@ class Client implements ClientContract {
     }
 
     /**
-     * Builds the URL
-     *
-     * @param $uri
-     * @return string
-     */
-    private function buildUrl($uri)
-    {
-        return $this->config->getUrl() . '/' . $uri;
-    }
-
-    /**
-     * Builds the HTTP Request Parameters
-     *
-     * @param array $parameters
-     * @param $token
-     * @return array
-     */
-    private function buildParameters(array $parameters, $token)
-    {
-        return [
-            'headers' => ['oauth-token' => $token ?: $token['access_token']],
-            'body' => json_encode($parameters)
-        ];
-    }
-
-    /**
      * Sends a GET Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
-     * @return array
+     * @param array $fields
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function getRequest($uri, array $parameters, $token = null)
+    public function getRequest($uri, array $fields)
     {
-        return $this->client('GET', $uri, $parameters, $token);
+        return $this->client("GET", $uri, $fields);
     }
 
     /**
      * Sends a POST Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
-     * @return array
+     * @param array $fields
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function postRequest($uri, array $parameters, $token = null)
+    public function postRequest($uri, array $fields)
     {
-        return $this->client('POST', $uri, $parameters, $token);
+        return $this->client("POST", $uri, $fields);
     }
 
     /**
      * Sends a PUT Request
      *
      * @param $uri
-     * @param array $parameters
-     * @param null $token
-     * @return array
+     * @param array $fields
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function putRequest($uri, array $parameters, $token = null)
+    public function putRequest($uri, array $fields)
     {
-        return $this->client('PUT', $uri, $parameters, $token);
+        return $this->client("PUT", $uri, $fields);
     }
 
     /**
      * Sends a DELETE Request
      *
      * @param $uri
-     * @param null $token
-     * @return array
+     * @param array $fields
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function deleteRequest($uri, $token = null)
+    public function deleteRequest($uri, array $fields)
     {
-        return $this->client('DELETE', $uri, [], $token);
+        return $this->client("DELETE", $uri, $fields);
     }
 }

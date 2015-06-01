@@ -27,7 +27,7 @@ class TokenSpec extends BaseSpec {
      */
     function it_should_return_the_current_access_token()
     {
-        $this->make()->shouldBeArray();
+        $this->make()->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
     }
 
     /**
@@ -35,7 +35,8 @@ class TokenSpec extends BaseSpec {
      */
     function it_should_destroy_the_session()
     {
-        $this->make()->shouldBeArray();
+        $this->make()->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
+        
         $this->destroy()->shouldReturn(true);
     }
 

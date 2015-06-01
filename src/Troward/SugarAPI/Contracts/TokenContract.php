@@ -20,4 +20,14 @@ interface TokenContract {
      * @return true
      */
     public function destroy();
+
+    /**
+     * @return string
+     */
+    public function getAccessToken();
+
+    /**
+     * @return string
+     */
+    public function getExpiresIn();
 }

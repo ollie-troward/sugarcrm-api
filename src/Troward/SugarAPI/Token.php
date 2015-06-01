@@ -9,9 +9,14 @@ use Troward\SugarAPI\Contracts\TokenContract;
 class Token extends Client implements TokenContract {
 
     /**
-     * @var
+     * @var $access_token string
      */
-    private $token;
+    private $access_token;
+
+    /**
+     * @var $expires_in string
+     */
+    private $expires_in;
 
     /**
      * @var string
@@ -54,9 +59,20 @@ class Token extends Client implements TokenContract {
     {
         if (!empty($this->token)) return $this->token;
 
-        $newToken = $this->postRequest($this->loginUri, $this->parameters());
+        $newToken = $this->postRequest($this->loginUri, $this->buildTokenParameters());
 
-        return $this->token = $newToken;
+        $this->setProperties($newToken->json());
+
+        return $this;
+    }
+
+    /**
+     * @param array $newToken
+     */
+    private function setProperties(array $newToken)
+    {
+        $this->access_token = $newToken['access_token'];
+        $this->expires_in = $newToken['expires_in'];
     }
 
     /**
@@ -64,24 +80,29 @@ class Token extends Client implements TokenContract {
      */
     public function destroy()
     {
-        if (!empty($this->token)) $this->postRequest($this->logoutUri, [], $this->token['access_token']);
+        if (!empty($this->access_token))
+        {
+            $this->postRequest($this->logoutUri, $this->buildParameters(0, [], [], [], $this));
+        }
 
         return true;
     }
 
+
     /**
-     * @return array
+     * @return string
      */
-    private function parameters()
+    public function getAccessToken()
     {
-        return [
-            "grant_type" => "password",
-            "client_id" => $this->config->getConsumerKey(),
-            "client_secret" => $this->config->getConsumerSecret(),
-            "username" => $this->config->getUsername(),
-            "password" => $this->config->getPassword(),
-            "platform" => "base",
-        ];
+        return $this->access_token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpiresIn()
+    {
+        return $this->expires_in;
     }
 
     /**
@@ -89,6 +110,6 @@ class Token extends Client implements TokenContract {
      */
     public function __toString()
     {
-        return $this->token['access_token'];
+        return $this->access_token;
     }
 }

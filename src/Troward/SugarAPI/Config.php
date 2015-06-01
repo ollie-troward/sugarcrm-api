@@ -2,15 +2,22 @@
 
 use Troward\SugarAPI\Contracts\ConfigContract;
 
+/**
+ * Class Config
+ * @package Troward\SugarAPI
+ */
 class Config implements ConfigContract {
+
     /**
      * @var
      */
     private static $url;
+
     /**
      * @var
      */
     private static $username;
+
     /**
      * @var
      */

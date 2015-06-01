@@ -49,7 +49,8 @@ class BaseSpec extends ObjectBehavior {
      */
     function it_needs_the_configuration_to_be_set()
     {
-        new Config($this->credentials['url'],
+        new Config(
+            $this->credentials['url'],
             $this->credentials['username'], $this->credentials['password'],
             $this->credentials['consumer_key'], $this->credentials['consumer_secret']
         );
