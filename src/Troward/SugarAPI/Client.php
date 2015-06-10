@@ -18,11 +18,19 @@ class Client implements ClientContract {
     protected $config;
 
     /**
+     * Client used for HTTP Requests
+     *
+     * @var GuzzleClient
+     */
+    protected $client;
+
+    /**
      *
      */
     function __construct()
     {
         $this->config = Config::get();
+        $this->client = new GuzzleClient();
     }
 
     /**
@@ -127,11 +135,11 @@ class Client implements ClientContract {
      * @param $parameters
      * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    private function client($method, $uri, $parameters)
+    private function request($method, $uri, $parameters)
     {
         try
         {
-            return (new GuzzleClient)->$method($this->config->getUrl() . "/" . $uri, $parameters);
+            return $this->client->$method($this->config->getUrl() . "/" . $uri, $parameters);
         } catch (\RuntimeException $e)
         {
             throw new ClientException($e->getMessage());
@@ -147,7 +155,7 @@ class Client implements ClientContract {
      */
     public function getRequest($uri, array $fields)
     {
-        return $this->client("GET", $uri, $fields);
+        return $this->request("GET", $uri, $fields);
     }
 
     /**
@@ -159,7 +167,7 @@ class Client implements ClientContract {
      */
     public function postRequest($uri, array $fields)
     {
-        return $this->client("POST", $uri, $fields);
+        return $this->request("POST", $uri, $fields);
     }
 
     /**
@@ -171,7 +179,7 @@ class Client implements ClientContract {
      */
     public function putRequest($uri, array $fields)
     {
-        return $this->client("PUT", $uri, $fields);
+        return $this->request("PUT", $uri, $fields);
     }
 
     /**
@@ -183,6 +191,6 @@ class Client implements ClientContract {
      */
     public function deleteRequest($uri, array $fields)
     {
-        return $this->client("DELETE", $uri, $fields);
+        return $this->request("DELETE", $uri, $fields);
     }
 }
