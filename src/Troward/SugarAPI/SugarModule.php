@@ -1,14 +1,13 @@
 <?php namespace Troward\SugarAPI;
 
 use Troward\SugarAPI\Contracts\SugarModuleContract;
-use Troward\SugarAPI\Exceptions\SugarModuleException;
 
 /**
  * Class SugarModule
  * @package Troward\SugarAPI
  */
-class SugarModule extends Client implements SugarModuleContract {
-
+class SugarModule extends Client implements SugarModuleContract
+{
     /**
      * Name of the Module
      *
@@ -190,41 +189,22 @@ class SugarModule extends Client implements SugarModuleContract {
     }
 
     /**
-     * Exports a record list
-     *
-     * @param $recordListId
-     * @param int $limit
-     * @param array $fields
-     * @param array $orderBy
-     * @return array
+     * @param $recordId
+     * @param $destinationPath
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function export($recordListId, $limit = 500, $fields = [], $orderBy = [])
+    public function downloadFile($recordId, $destinationPath)
     {
-        return $this->getRequest($this->module . "/" . __FUNCTION__ . "/" . $recordListId, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
+        return $this->getRequest($this->module . "/" . $recordId . "/file/filename", $this->buildParameters(0, [], [], [], $this->token()));
     }
 
     /**
-     * Imports a record list
-     *
-     * @param array $recordIds
-     * @return mixed
+     * @param $recordId
+     * @param $sourcePath
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function import(array $recordIds)
+    public function uploadFile($recordId, $sourcePath)
     {
-        return $this->postRequest($this->module . "/record_list/", $this->buildRecordListParameters($recordIds, $this->token()));
-    }
-
-    public function getAttachment()
-    {
-        if ($this->module != "Notes") throw new SugarModuleException("Only allowed for the 'Notes' Module");
-
-        // TODO
-    }
-
-    public function setAttachment()
-    {
-        if ($this->module != "Notes") throw new SugarModuleException("Only allowed for the 'Notes' Module");
-
-        // TODO
+        return $this->postRequest($this->module . "/" . $recordId . "/file/filename", $this->buildFileParameters($sourcePath, $this->token()));
     }
 }

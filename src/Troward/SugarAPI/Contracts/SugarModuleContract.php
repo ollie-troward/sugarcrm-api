@@ -4,7 +4,12 @@
  * Interface SugarModuleContract
  * @package Troward\SugarAPI\Contracts
  */
-interface SugarModuleContract {
+/**
+ * Interface SugarModuleContract
+ * @package Troward\SugarAPI\Contracts
+ */
+interface SugarModuleContract
+{
 
     /**
      * Finds the first record by value
@@ -112,25 +117,16 @@ interface SugarModuleContract {
     public function unsubscribe($id);
 
     /**
-     * Exports a record list
-     *
-     * @param $recordListId
-     * @param int $limit
-     * @param array $fields
-     * @param array $orderBy
-     * @return array
+     * @param $recordId
+     * @param $destinationPath
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function export($recordListId, $limit = 500, $fields = [], $orderBy = []);
+    public function downloadFile($recordId, $destinationPath);
 
     /**
-     * Imports a record list
-     *
-     * @param array $recordIds
-     * @return mixed
+     * @param $recordId
+     * @param $sourcePath
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function import(array $recordIds);
-
-    public function getAttachment();
-
-    public function setAttachment();
+    public function uploadFile($recordId, $sourcePath);
 }

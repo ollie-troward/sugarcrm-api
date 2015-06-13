@@ -3,13 +3,14 @@
 use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Contracts\ClientContract;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\BadResponseException;
 
 /**
  * Class Client
  * @package Troward\SugarAPI
  */
-class Client implements ClientContract {
-
+class Client implements ClientContract
+{
     /**
      * Configuration used for sending HTTP Requests
      *
@@ -47,7 +48,7 @@ class Client implements ClientContract {
     {
         return [
             'headers' => ['oauth-token' => $token->getAccessToken()],
-            'body' => json_encode(
+            'json' => 
                 [
                     'filter' => [$filters],
                     'max_num' => $limit,
@@ -55,7 +56,29 @@ class Client implements ClientContract {
                     'fields' => $this->buildFields($fields),
                     'order_by' => $this->buildOrderBy($orderBy)
                 ]
-            )
+            
+        ];
+    }
+
+    /**
+     * @param $sourcePath
+     * @param Token $token
+     * @return array
+     */
+    protected function buildFileParameters($sourcePath, Token $token)
+    {
+        return [
+            'headers' => 
+                [
+                    'Content-Type' => 'multipart/form-data',
+                    'oauth-token' => $token->getAccessToken()
+                ],
+            'json' => 
+                [
+                    'filename' => '@' . $sourcePath,
+                    'format' => 'sugar-html-json',
+                    'delete_if_fails' => true
+                ]
         ];
     }
 
@@ -67,35 +90,15 @@ class Client implements ClientContract {
     protected function buildTokenParameters()
     {
         return [
-            'body' => json_encode(
-                [
-                    "grant_type" => "password",
-                    "client_id" => $this->config->getConsumerKey(),
-                    "client_secret" => $this->config->getConsumerSecret(),
-                    "username" => $this->config->getUsername(),
-                    "password" => $this->config->getPassword(),
-                    "platform" => "base"
-                ]
-            )
-        ];
-    }
-
-    /**
-     * Builds the HTTP Record List Request Parameters
-     *
-     * @param array $records
-     * @param Token $token
-     * @return array
-     */
-    protected function buildRecordListParameters(array $records, Token $token)
-    {
-        return [
-            'headers' => ['oauth-token' => $token->getAccessToken()],
-            'body' => json_encode(
-                [
-                    'records' => $records
-                ]
-            )
+            'json' => 
+            [
+                "grant_type" => "password",
+                "client_id" => $this->config->getConsumerKey(),
+                "client_secret" => $this->config->getConsumerSecret(),
+                "username" => $this->config->getUsername(),
+                "password" => $this->config->getPassword(),
+                "platform" => "base"
+            ]
         ];
     }
 
@@ -140,8 +143,11 @@ class Client implements ClientContract {
         try
         {
             return $this->client->$method($this->config->getUrl() . "/" . $uri, $parameters);
-        } catch (\RuntimeException $e)
+        } catch (BadResponseException $e)
         {
+            var_dump($parameters);
+            var_dump($e->getRequest()->getHeaders());
+            var_dump($e->getResponse()->getBody()->getContents());
             throw new ClientException($e->getMessage());
         }
     }

@@ -4,7 +4,14 @@
  * Class SugarModuleSpec
  * @package spec\Troward\SugarAPI
  */
-class SugarModuleSpec extends BaseSpec {
+use Troward\SugarAPI\SugarModule;
+
+/**
+ * Class SugarModuleSpec
+ * @package spec\Troward\SugarAPI
+ */
+class SugarModuleSpec extends BaseSpec
+{
     /**
      * @var string
      */
@@ -25,11 +32,18 @@ class SugarModuleSpec extends BaseSpec {
     protected $validRecordName;
 
     /**
-     * A valid record list id.
+     * A valid file field.
      *
      * @var string
      */
-    protected $recordListId;
+    protected $validFileField;
+
+    /**
+     * A valid file record id.
+     *
+     * @var string
+     */
+    protected $validFileRecordId;
 
     /**
      *
@@ -47,7 +61,8 @@ class SugarModuleSpec extends BaseSpec {
     {
         $this->validRecordId = getenv('valid_account_id');
         $this->validRecordName = getenv('valid_account_name');
-        $this->recordListId = getenv('valid_record_list_id');
+        $this->validFileRecordId = getenv('valid_file_record_id');
+        $this->validFileField = getenv('valid_file_field');
     }
 
     /**
@@ -159,38 +174,49 @@ class SugarModuleSpec extends BaseSpec {
     }
 
     /**
-     *
+     * TODO
      */
-    function it_can_import_a_record_list()
+    function it_can_create_a_record_list()
     {
-        $this->import()
+        // return $this->postRequest($this->module . "/record_list/", $this->buildRecordListParameters($records, $this->token()));
+        // $this->createRecordList()->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * TODO
+     */
+    function it_can_retrieve_a_record_list()
+    {
+        // return $this->getRequest($this->module . "/record_list/" . $recordListId, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
+        // $this->getRecordListById($this->recordListId)->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * It can fetch a file
+     */
+    function it_can_download_a_file()
+    {
+        $this->module = "Notes";
+        $this->let();
+
+        $destinationPath = 'storage/retrieved.txt';
+
+        $this->downloadFile($this->validFileRecordId, $destinationPath, $this->validFileField)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
-     *
+     * It can save a file
      */
-    function it_can_export_a_record_list()
+    function it_can_upload_a_file()
     {
-        $this->export($this->recordListId)
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
-    }
+        $this->module = "Notes";
+        $this->let();
 
-    /**
-     *
-     */
-    function it_can_fetch_a_note_attachment()
-    {
-        $this->getAttachment()
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
-    }
+        $fileName = 'TestFile';
+        $sourcePath = '~/Sandbox/sugarcrm-api/storage/test.txt';
 
-    /**
-     *
-     */
-    function it_can_attach_a_file_to_a_note()
-    {
-        $this->setAttachment()
+        $this->uploadFile($this->validFileRecordId, $sourcePath, $this->validFileField)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }
