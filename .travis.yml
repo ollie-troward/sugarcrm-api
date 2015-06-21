@@ -8,4 +8,4 @@ before_script:
 install:
 - composer install --prefer-source --no-interaction --dev
 script:
-- vendor/bin/phpspec run -n --ansi --format=nyan.cat
+- vendor/bin/phpspec run -n --ansi --format=pretty
