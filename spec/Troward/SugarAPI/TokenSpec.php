@@ -4,8 +4,8 @@
  * Class TokenSpec
  * @package spec\Troward\SugarAPI
  */
-class TokenSpec extends BaseSpec {
-
+class TokenSpec extends BaseSpec
+{
     /**
      *
      */
@@ -36,7 +36,7 @@ class TokenSpec extends BaseSpec {
     function it_should_destroy_the_session()
     {
         $this->make()->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
-        
+
         $this->destroy()->shouldReturn(true);
     }
 

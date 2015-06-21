@@ -6,7 +6,7 @@ use Troward\SugarAPI\Contracts\SugarModuleContract;
  * Class SugarModule
  * @package Troward\SugarAPI
  */
-class SugarModule extends Client implements SugarModuleContract
+class SugarModule implements SugarModuleContract
 {
     /**
      * Name of the Module
@@ -16,19 +16,29 @@ class SugarModule extends Client implements SugarModuleContract
     protected $module;
 
     /**
+     * The Client used for the API
+     *
+     * @var GuzzleClient
+     */
+    protected $client;
+
+    /**
      * Filters for record query
      *
      * @var array
      */
-    protected $filters = [];
+    protected $filters = [
+        '$and' => [],
+        '$or' => [],
+    ];
 
     /**
      * @param string $module
      */
     function __construct($module)
     {
-        parent::__construct();
         $this->module = $module;
+        $this->client = new GuzzleClient;
     }
 
     /**
@@ -66,7 +76,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->getRequest($this->module, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
+        return $this->client->get($this->module, $this->client->buildParameters($limit, [], $fields, $orderBy, $this->token()));
     }
 
     /**
@@ -79,7 +89,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->getRequest($this->module . "/filter", $this->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
+        return $this->client->get($this->module . "/filter", $this->client->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
     }
 
     /**
@@ -90,7 +100,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function create(array $fields)
     {
-        return $this->postRequest($this->module, $this->buildParameters(0, [], $fields, [], $this->token()));
+        return $this->client->post($this->module, $this->client->buildParameters(0, [], $fields, [], $this->token()));
     }
 
     /**
@@ -102,7 +112,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function update($id, array $fields)
     {
-        return $this->putRequest($this->module . "/" . $id, $this->buildParameters(0, [], $fields, [], $this->token()));
+        return $this->client->put($this->module . "/" . $id, $this->client->buildParameters(0, [], $fields, [], $this->token()));
     }
 
     /**
@@ -113,7 +123,20 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function delete($id)
     {
-        return $this->deleteRequest($this->module . "/" . $id, $this->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->delete($this->module . "/" . $id, $this->client->buildParameters(0, [], [], [], $this->token()));
+    }
+
+    /**
+     * Links related records by module
+     *
+     * @param $id
+     * @param $relatedModule
+     * @param array $fields
+     * @return $this
+     */
+    public function link($id, $relatedModule, $fields = [])
+    {
+        return $this->client->get($this->module . "/" . $id . "/link/" . strtolower($relatedModule), $this->client->buildParameters(0, [], $fields, [], $this->token()));
     }
 
     /**
@@ -152,7 +175,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function favorite($id)
     {
-        return $this->putRequest($this->module . "/" . $id . "/" . __FUNCTION__, $this->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
     }
 
     /**
@@ -163,7 +186,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function unfavorite($id)
     {
-        return $this->putRequest($this->module . "/" . $id . "/" . __FUNCTION__, $this->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
     }
 
     /**
@@ -174,7 +197,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function subscribe($id)
     {
-        return $this->postRequest($this->module . "/" . $id . "/" . __FUNCTION__, $this->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->post($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
     }
 
     /**
@@ -185,7 +208,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function unsubscribe($id)
     {
-        return $this->deleteRequest($this->module . "/" . $id . "/" . __FUNCTION__, $this->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->delete($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
     }
 
     /**
@@ -195,7 +218,7 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function downloadFile($recordId, $destinationPath)
     {
-        $response = $this->getRequest($this->module . "/" . $recordId . "/file/filename", $this->buildParameters(0, [], [], [], $this->token()));
+        $response = $this->client->get($this->module . "/" . $recordId . "/file/filename", $this->client->buildParameters(0, [], [], [], $this->token()));
 
         file_put_contents($destinationPath, $response->getBody()->getContents());
 
@@ -209,6 +232,6 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function uploadFile($recordId, $sourcePath)
     {
-        return $this->postRequest($this->module . "/" . $recordId . "/file/filename", $this->buildFileParameters($sourcePath, $this->token()));
+        return $this->client->post($this->module . "/" . $recordId . "/file/filename", $this->client->buildFileParameters($sourcePath, $this->token()));
     }
 }

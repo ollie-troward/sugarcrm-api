@@ -1,16 +1,16 @@
 <?php namespace spec\Troward\SugarAPI;
 
 /**
- * Class ClientSpec
+ * Class GuzzleClientSpec
  * @package spec\Troward\SugarAPI
  */
-class ClientSpec extends BaseSpec {
-
+class GuzzleClientSpec extends BaseSpec
+{
     /**
      *
      */
     function it_is_initializable()
     {
-        $this->shouldHaveType('Troward\SugarAPI\Client');
+        $this->shouldHaveType('Troward\SugarAPI\GuzzleClient');
     }
 }

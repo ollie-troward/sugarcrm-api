@@ -1,15 +1,17 @@
 <?php namespace Troward\SugarAPI;
 
+use Troward\SugarAPI\Contracts\TokenContract;
 use Troward\SugarAPI\Exceptions\ClientException;
 use Troward\SugarAPI\Contracts\ClientContract;
-use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use Troward\SugarAPI\Exceptions\GuzzleClientException;
 
 /**
  * Class Client
  * @package Troward\SugarAPI
  */
-class Client implements ClientContract
+class GuzzleClient implements ClientContract
 {
     /**
      * Configuration used for sending HTTP Requests
@@ -31,7 +33,7 @@ class Client implements ClientContract
     function __construct()
     {
         $this->config = Config::get();
-        $this->client = new GuzzleClient();
+        $this->client = new Client;
     }
 
     /**
@@ -41,10 +43,10 @@ class Client implements ClientContract
      * @param array $filters
      * @param array $fields
      * @param array $orderBy
-     * @param Token $token
+     * @param TokenContract $token
      * @return array
      */
-    protected function buildParameters($limit, array $filters, array $fields, array $orderBy, Token $token)
+    public function buildParameters($limit, array $filters, array $fields, array $orderBy, TokenContract $token)
     {
         return [
             'headers' => ['oauth-token' => $token->getAccessToken()],
@@ -61,11 +63,13 @@ class Client implements ClientContract
     }
 
     /**
+     * Builds the necessary file parameters for an upload
+     *
      * @param $sourcePath
-     * @param Token $token
+     * @param TokenContract $token
      * @return array
      */
-    protected function buildFileParameters($sourcePath, Token $token)
+    public function buildFileParameters($sourcePath, TokenContract $token)
     {
         return [
             'headers' => 
@@ -86,7 +90,7 @@ class Client implements ClientContract
      *
      * @return array
      */
-    protected function buildTokenParameters()
+    public function buildTokenParameters()
     {
         return [
             'json' => 
@@ -144,10 +148,7 @@ class Client implements ClientContract
             return $this->client->$method($this->config->getUrl() . "/" . $uri, $parameters);
         } catch (BadResponseException $e)
         {
-            var_dump($parameters);
-            var_dump($e->getRequest()->getHeaders());
-            var_dump($e->getResponse()->getBody()->getContents());
-            throw new ClientException($e->getMessage());
+            throw new GuzzleClientException($e);
         }
     }
 
@@ -158,9 +159,9 @@ class Client implements ClientContract
      * @param array $fields
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function getRequest($uri, array $fields)
+    public function get($uri, array $fields)
     {
-        return $this->request("GET", $uri, $fields);
+        return $this->request(__FUNCTION__, $uri, $fields);
     }
 
     /**
@@ -170,9 +171,9 @@ class Client implements ClientContract
      * @param array $fields
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function postRequest($uri, array $fields)
+    public function post($uri, array $fields)
     {
-        return $this->request("POST", $uri, $fields);
+        return $this->request(__FUNCTION__, $uri, $fields);
     }
 
     /**
@@ -182,9 +183,9 @@ class Client implements ClientContract
      * @param array $fields
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function putRequest($uri, array $fields)
+    public function put($uri, array $fields)
     {
-        return $this->request("PUT", $uri, $fields);
+        return $this->request(__FUNCTION__, $uri, $fields);
     }
 
     /**
@@ -194,8 +195,8 @@ class Client implements ClientContract
      * @param array $fields
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function deleteRequest($uri, array $fields)
+    public function delete($uri, array $fields)
     {
-        return $this->request("DELETE", $uri, $fields);
+        return $this->request(__FUNCTION__, $uri, $fields);
     }
 }

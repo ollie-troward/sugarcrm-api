@@ -4,13 +4,8 @@
  * Interface SugarModuleContract
  * @package Troward\SugarAPI\Contracts
  */
-/**
- * Interface SugarModuleContract
- * @package Troward\SugarAPI\Contracts
- */
 interface SugarModuleContract
 {
-
     /**
      * Finds the first record by value
      *
@@ -67,6 +62,16 @@ interface SugarModuleContract
     public function delete($id);
 
     /**
+     * Links related records by module
+     *
+     * @param $id
+     * @param $relatedModule
+     * @param array $fields
+     * @return $this
+     */
+    public function link($id, $relatedModule, $fields = []);
+
+    /**
      * Appends an AND filter to the query
      *
      * @param $key
@@ -117,6 +122,8 @@ interface SugarModuleContract
     public function unsubscribe($id);
 
     /**
+     * Download a file
+     *
      * @param $recordId
      * @param $destinationPath
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
@@ -124,6 +131,8 @@ interface SugarModuleContract
     public function downloadFile($recordId, $destinationPath);
 
     /**
+     * Upload a file
+     *
      * @param $recordId
      * @param $sourcePath
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null

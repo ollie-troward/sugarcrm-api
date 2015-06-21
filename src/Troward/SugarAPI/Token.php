@@ -6,7 +6,12 @@ use Troward\SugarAPI\Contracts\TokenContract;
  * Class Token
  * @package Troward\SugarAPI
  */
-class Token extends Client implements TokenContract {
+class Token implements TokenContract
+{
+    /**
+     * @var GuzzleClient
+     */
+    protected $client;
 
     /**
      * @var $access_token string
@@ -33,7 +38,7 @@ class Token extends Client implements TokenContract {
      */
     function __construct()
     {
-        parent::__construct();
+        $this->client = new GuzzleClient;
         $this->make();
     }
 
@@ -59,7 +64,7 @@ class Token extends Client implements TokenContract {
     {
         if (!empty($this->token)) return $this->token;
 
-        $newToken = $this->postRequest($this->loginUri, $this->buildTokenParameters());
+        $newToken = $this->client->post($this->loginUri, $this->client->buildTokenParameters());
 
         $this->setProperties($newToken->json());
 
@@ -82,7 +87,7 @@ class Token extends Client implements TokenContract {
     {
         if (!empty($this->access_token))
         {
-            $this->postRequest($this->logoutUri, $this->buildParameters(0, [], [], [], $this));
+            $this->client->post($this->logoutUri, $this->client->buildParameters(0, [], [], [], $this));
         }
 
         return true;

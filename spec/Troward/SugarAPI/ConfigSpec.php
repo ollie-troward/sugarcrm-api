@@ -4,8 +4,8 @@
  * Class ConfigSpec
  * @package spec\Troward\SugarAPI
  */
-class ConfigSpec extends BaseSpec {
-
+class ConfigSpec extends BaseSpec
+{
     /**
      *
      */

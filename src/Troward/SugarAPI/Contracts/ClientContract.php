@@ -4,7 +4,36 @@
  * Interface ClientContract
  * @package Troward\SugarAPI\Contracts
  */
-interface ClientContract {
+interface ClientContract
+{
+    /**
+     * Builds the HTTP Request Parameters
+     *
+     * @param $limit
+     * @param array $filters
+     * @param array $fields
+     * @param array $orderBy
+     * @param TokenContract $token
+     * @return array
+     */
+    public function buildParameters($limit, array $filters, array $fields, array $orderBy, TokenContract $token);
+
+    /**
+     * Builds the necessary File Parameters for an Upload
+     *
+     * @param $sourcePath
+     * @param TokenContract $token
+     * @return array
+     */
+    public function buildFileParameters($sourcePath, TokenContract $token);
+
+    /**
+     * Builds the HTTP Token Request Parameters
+     *
+     * @return array
+     */
+    public function buildTokenParameters();
+
     /**
      * Sends a GET Request
      *
@@ -12,7 +41,7 @@ interface ClientContract {
      * @param array $fields
      * @return array
      */
-    public function getRequest($uri, array $fields);
+    public function get($uri, array $fields);
 
     /**
      * Sends a POST Request
@@ -21,7 +50,7 @@ interface ClientContract {
      * @param array $fields
      * @return array
      */
-    public function postRequest($uri, array $fields);
+    public function post($uri, array $fields);
 
     /**
      * Sends a PUT Request
@@ -30,7 +59,7 @@ interface ClientContract {
      * @param array $fields
      * @return array
      */
-    public function putRequest($uri, array $fields);
+    public function put($uri, array $fields);
 
     /**
      * Sends a DELETE Request
@@ -39,5 +68,5 @@ interface ClientContract {
      * @param array $fields
      * @return array
      */
-    public function deleteRequest($uri, array $fields);
+    public function delete($uri, array $fields);
 }

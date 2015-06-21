@@ -4,12 +4,6 @@
  * Class SugarModuleSpec
  * @package spec\Troward\SugarAPI
  */
-use Troward\SugarAPI\SugarModule;
-
-/**
- * Class SugarModuleSpec
- * @package spec\Troward\SugarAPI
- */
 class SugarModuleSpec extends BaseSpec
 {
     /**
@@ -215,6 +209,15 @@ class SugarModuleSpec extends BaseSpec
         $sourcePath = 'storage/test.txt';
 
         $this->uploadFile($this->validFileRecordId, $sourcePath)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * It can find related records based on module
+     */
+    function it_can_link_a_related_module()
+    {
+        $this->link($this->validRecordId, "Notes")
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }
