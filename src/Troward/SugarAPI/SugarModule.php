@@ -55,11 +55,13 @@ class SugarModule extends SugarBase implements SugarModuleContract
      * @param int $limit
      * @param array $fields
      * @param array $orderBy
-     * @return array
+     * @return SugarResult
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->client->get($this->module, $this->parameters->filter($limit, [], $fields, $orderBy, $this->token()));
+        $response = $this->client->get($this->module, $this->parameters->filter($limit, [], $fields, $orderBy, $this->token()));
+
+        return $this->result($response);
     }
 
     /**
@@ -72,7 +74,9 @@ class SugarModule extends SugarBase implements SugarModuleContract
      */
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->client->get($this->module . "/filter", $this->parameters->filter($limit, $this->filters, $fields, $orderBy, $this->token()));
+        $response = $this->client->get($this->module . "/filter", $this->parameters->filter($limit, $this->filters, $fields, $orderBy, $this->token()));
+
+        return $this->result($response);
     }
 
     /**
@@ -119,7 +123,9 @@ class SugarModule extends SugarBase implements SugarModuleContract
      */
     public function getRelation($id, $relatedModule, $fields = [])
     {
-        return $this->client->get($this->module . "/" . $id . "/link/" . strtolower($relatedModule), $this->parameters->filter(0, [], $fields, [], $this->token()));
+        $response = $this->client->get($this->module . "/" . $id . "/link/" . strtolower($relatedModule), $this->parameters->filter(0, [], $fields, [], $this->token()));
+
+        return $this->result($response);
     }
 
     /**
@@ -214,7 +220,9 @@ class SugarModule extends SugarBase implements SugarModuleContract
      */
     public function getFileList($id)
     {
-        return $this->client->get($this->module . "/" . $id . "/file", $this->parameters->none($this->token()));
+        $response = $this->client->get($this->module . "/" . $id . "/file", $this->parameters->none($this->token()));
+
+        return $this->result($response);
     }
 
     /**
@@ -259,6 +267,8 @@ class SugarModule extends SugarBase implements SugarModuleContract
      */
     public function changeLog($id)
     {
-        return $this->client->get($this->module . "/" . $id . "/audit", $this->parameters->none($this->token()));
+        $response = $this->client->get($this->module . "/" . $id . "/audit", $this->parameters->none($this->token()));
+
+        return $this->result($response);
     }
 }

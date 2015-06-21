@@ -4,8 +4,8 @@
  * Interface ConfigContract
  * @package Troward\SugarAPI\Contracts
  */
-interface ConfigContract {
-
+interface ConfigContract
+{
     /**
      * Returns Singleton instance of Config
      *

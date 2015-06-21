@@ -7,11 +7,6 @@
 class SugarClientSpec extends BaseSpec
 {
     /**
-     * @var string
-     */
-    protected $module = "Accounts";
-
-    /**
      * A valid record id.
      *
      * @var string

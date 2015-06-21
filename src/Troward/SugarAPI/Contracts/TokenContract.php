@@ -4,8 +4,8 @@
  * Interface TokenContract
  * @package Troward\SugarAPI\Contracts
  */
-interface TokenContract {
-
+interface TokenContract
+{
     /**
      * @return mixed
      */
@@ -17,7 +17,7 @@ interface TokenContract {
     public function make();
 
     /**
-     * @return true
+     * @return bool
      */
     public function destroy();
 

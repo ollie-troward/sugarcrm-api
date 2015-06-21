@@ -6,30 +6,30 @@ use Troward\SugarAPI\Contracts\ConfigContract;
  * Class Config
  * @package Troward\SugarAPI
  */
-class Config implements ConfigContract {
-
+class Config implements ConfigContract
+{
     /**
-     * @var
+     * @var static $url
      */
     private static $url;
 
     /**
-     * @var
+     * @var static $username
      */
     private static $username;
 
     /**
-     * @var
+     * @var static $password
      */
     private static $password;
 
     /**
-     * @var
+     * @var static $consumerKey
      */
     private static $consumerKey;
 
     /**
-     * @var
+     * @var static $consumerSecret
      */
     private static $consumerSecret;
 

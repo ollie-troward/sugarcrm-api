@@ -1,5 +1,6 @@
 <?php namespace Troward\SugarAPI;
 
+use GuzzleHttp\Message\ResponseInterface;
 use Troward\SugarAPI\Contracts\SugarBaseContract;
 
 /**
@@ -39,5 +40,14 @@ class SugarBase implements SugarBaseContract
     public function token()
     {
         return Token::retrieve();
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return SugarResult
+     */
+    public function result(ResponseInterface $response)
+    {
+        return new SugarResult($response);
     }
 }

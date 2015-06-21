@@ -1,9 +1,13 @@
 <?php namespace Troward\SugarAPI\Contracts;
 
+/**
+ * Interface ParameterContract
+ * @package Troward\SugarAPI\Contracts
+ */
 interface ParameterContract
 {
     /**
-     * No parameters
+     * No parameters with token
      *
      * @param TokenContract $token
      * @return array

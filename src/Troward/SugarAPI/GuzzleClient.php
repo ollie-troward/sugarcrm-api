@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 
 /**
- * Class Client
+ * Class GuzzleClient
  * @package Troward\SugarAPI
  */
 class GuzzleClient implements ClientContract

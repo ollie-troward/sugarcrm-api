@@ -1,5 +1,9 @@
 <?php namespace Troward\SugarAPI\Contracts;
 
+/**
+ * Interface SugarClientContract
+ * @package Troward\SugarAPI\Contracts
+ */
 interface SugarClientContract
 {
     /**

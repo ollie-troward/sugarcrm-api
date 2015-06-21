@@ -1,4 +1,5 @@
 <?php namespace spec\Troward\SugarAPI;
+use Troward\SugarAPI\SugarModule;
 
 /**
  * Class SugarModuleSpec
@@ -80,7 +81,7 @@ class SugarModuleSpec extends BaseSpec
     function it_retrieves_all_records_with_a_limit()
     {
         $limit = 10;
-        $this->all($limit)->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+        $this->all($limit)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -89,7 +90,7 @@ class SugarModuleSpec extends BaseSpec
     function it_gets_all_records_with_a_limit()
     {
         $limit = 10;
-        $this->get($limit)->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+        $this->get($limit)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -97,7 +98,7 @@ class SugarModuleSpec extends BaseSpec
      */
     function it_retrieves_the_first_record()
     {
-        $this->find('id', $this->validRecordId)->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+        $this->find('id', $this->validRecordId)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -105,7 +106,7 @@ class SugarModuleSpec extends BaseSpec
      */
     function it_fails_to_retrieve_any_records()
     {
-        $this->find('id', 'not_valid_id')->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+        $this->find('id', 'not_valid_id')->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -116,7 +117,7 @@ class SugarModuleSpec extends BaseSpec
         $this->where('name', $this->validRecordName)
             ->where('id', $this->validRecordId)
             ->get()
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -127,7 +128,7 @@ class SugarModuleSpec extends BaseSpec
         $this->where('name', $this->validRecordName)
             ->orWhere('id', $this->validRecordId)
             ->get()
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -175,7 +176,7 @@ class SugarModuleSpec extends BaseSpec
         $this->let();
 
         $this->getFileList($this->validFileRecordId)
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -186,7 +187,7 @@ class SugarModuleSpec extends BaseSpec
         $this->module = "Notes";
         $this->let();
 
-        $sourcePath = 'tests/storage/test.txt';
+        $sourcePath = 'storage/test.txt';
 
         $this->uploadFile($this->validFileRecordId, $sourcePath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
@@ -200,7 +201,7 @@ class SugarModuleSpec extends BaseSpec
         $this->module = "Notes";
         $this->let();
 
-        $destinationPath = 'tests/storage/retrieved.txt';
+        $destinationPath = 'storage/retrieved.txt';
 
         $this->downloadFile($this->validFileRecordId, $destinationPath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
@@ -224,7 +225,7 @@ class SugarModuleSpec extends BaseSpec
     function it_can_get_a_related_module()
     {
         $this->getRelation($this->validRecordId, "Notes")
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 
     /**
@@ -242,6 +243,6 @@ class SugarModuleSpec extends BaseSpec
     function it_can_retrieve_an_audit_log()
     {
         $this->changeLog($this->validRecordId)
-            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
     }
 }
