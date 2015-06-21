@@ -62,7 +62,6 @@ class SugarModuleSpec extends BaseSpec
         $this->validRecordId = getenv('valid_account_id');
         $this->validRecordName = getenv('valid_account_name');
         $this->validFileRecordId = getenv('valid_file_record_id');
-        $this->validFileField = getenv('valid_file_field');
     }
 
     /**
@@ -201,7 +200,7 @@ class SugarModuleSpec extends BaseSpec
 
         $destinationPath = 'storage/retrieved.txt';
 
-        $this->downloadFile($this->validFileRecordId, $destinationPath, $this->validFileField)
+        $this->downloadFile($this->validFileRecordId, $destinationPath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
@@ -213,10 +212,9 @@ class SugarModuleSpec extends BaseSpec
         $this->module = "Notes";
         $this->let();
 
-        $fileName = 'TestFile';
-        $sourcePath = '~/Sandbox/sugarcrm-api/storage/test.txt';
+        $sourcePath = 'storage/test.txt';
 
-        $this->uploadFile($this->validFileRecordId, $sourcePath, $this->validFileField)
+        $this->uploadFile($this->validFileRecordId, $sourcePath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }

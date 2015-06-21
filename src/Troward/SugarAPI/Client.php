@@ -70,12 +70,11 @@ class Client implements ClientContract
         return [
             'headers' => 
                 [
-                    'Content-Type' => 'multipart/form-data',
                     'oauth-token' => $token->getAccessToken()
                 ],
-            'json' => 
+            'body' => 
                 [
-                    'filename' => '@' . $sourcePath,
+                    'filename' => fopen($sourcePath, 'r'),
                     'format' => 'sugar-html-json',
                     'delete_if_fails' => true
                 ]

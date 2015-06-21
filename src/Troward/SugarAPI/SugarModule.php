@@ -195,7 +195,11 @@ class SugarModule extends Client implements SugarModuleContract
      */
     public function downloadFile($recordId, $destinationPath)
     {
-        return $this->getRequest($this->module . "/" . $recordId . "/file/filename", $this->buildParameters(0, [], [], [], $this->token()));
+        $response = $this->getRequest($this->module . "/" . $recordId . "/file/filename", $this->buildParameters(0, [], [], [], $this->token()));
+
+        file_put_contents($destinationPath, $response->getBody()->getContents());
+
+        return $response;
     }
 
     /**
