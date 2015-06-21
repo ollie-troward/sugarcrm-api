@@ -12,25 +12,25 @@ this wrapper helps you start up and get busy in only a few lines.
 
 Usage
 ------------
+```php
+# Enter your details
+new Troward\SugarAPI\Config(
+    '<your_url>','<your_username>',
+    '<your_password>','<your_consumer_key>',
+    '<your_consumer_secret>'
+    );
 
-    # Enter your details
-    new Troward\SugarAPI\Config(
-        '<your_url>','<your_username>',
-        '<your_password>','<your_consumer_key>',
-        '<your_consumer_secret>'
-        );
-    
-    # Generate a new token
-    new Troward\SugarAPI\Token();
-    
-    # Retrieve your data by Module
-    $account = new Troward\SugarAPI\SugarModule('Accounts');
-    $account->all(500); // Returns 500 Account Records
-    
-    # Run requests without Modules
-    $client = new Troward\SugarAPI\SugarClient();
-    $client->mostActiveUsers(30); // Returns most active users in the last 30 days
+# Generate a new token
+new Troward\SugarAPI\Token();
 
+# Retrieve your data by Module
+$account = new Troward\SugarAPI\SugarModule('Accounts');
+$account->all(500); // Returns 500 Account Records
+
+# Run requests without Modules
+$client = new Troward\SugarAPI\SugarClient();
+$client->mostActiveUsers(30); // Returns most active users in the last 30 days
+```
 Testing
 ------------
 
