@@ -167,24 +167,6 @@ class SugarModuleSpec extends BaseSpec
     }
 
     /**
-     * TODO
-     */
-    function it_can_create_a_record_list()
-    {
-        // return $this->postRequest($this->module . "/record_list/", $this->buildRecordListParameters($records, $this->token()));
-        // $this->createRecordList()->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
-    }
-
-    /**
-     * TODO
-     */
-    function it_can_retrieve_a_record_list()
-    {
-        // return $this->getRequest($this->module . "/record_list/" . $recordListId, $this->buildParameters($limit, [], $fields, $orderBy, $this->token()));
-        // $this->getRecordListById($this->recordListId)->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
-    }
-
-    /**
      * Retrieves a file listing for a record
      */
     function it_can_retrieve_a_file_list()
