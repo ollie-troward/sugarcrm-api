@@ -185,16 +185,14 @@ class SugarModuleSpec extends BaseSpec
     }
 
     /**
-     * It can fetch a file
+     * Retrieves a file listing for a record
      */
-    function it_can_download_a_file()
+    function it_can_retrieve_a_file_list()
     {
         $this->module = "Notes";
         $this->let();
 
-        $destinationPath = 'storage/retrieved.txt';
-
-        $this->downloadFile($this->validFileRecordId, $destinationPath)
+        $this->getFileList($this->validFileRecordId)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
@@ -213,11 +211,55 @@ class SugarModuleSpec extends BaseSpec
     }
 
     /**
+     * It can fetch a file
+     */
+    function it_can_download_a_file()
+    {
+        $this->module = "Notes";
+        $this->let();
+
+        $destinationPath = 'storage/retrieved.txt';
+
+        $this->downloadFile($this->validFileRecordId, $destinationPath)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * It can delete a file
+     */
+    function it_can_delete_a_file()
+    {
+        $this->module = "Notes";
+        $this->let();
+
+        $this->deleteFile($this->validFileRecordId)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
      * It can find related records based on module
      */
-    function it_can_link_a_related_module()
+    function it_can_get_a_related_module()
     {
-        $this->link($this->validRecordId, "Notes")
+        $this->getRelation($this->validRecordId, "Notes")
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * It can set related records based on module
+     */
+    function it_can_set_a_related_module()
+    {
+        $this->setRelation($this->validRecordId, "Notes", $this->validFileRecordId)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
+    }
+
+    /**
+     * It can retrieve an audit log for a record
+     */
+    function it_can_retrieve_an_audit_log()
+    {
+        $this->changeLog($this->validRecordId)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }

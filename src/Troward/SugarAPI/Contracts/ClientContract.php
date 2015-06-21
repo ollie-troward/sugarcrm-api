@@ -7,34 +7,6 @@
 interface ClientContract
 {
     /**
-     * Builds the HTTP Request Parameters
-     *
-     * @param $limit
-     * @param array $filters
-     * @param array $fields
-     * @param array $orderBy
-     * @param TokenContract $token
-     * @return array
-     */
-    public function buildParameters($limit, array $filters, array $fields, array $orderBy, TokenContract $token);
-
-    /**
-     * Builds the necessary File Parameters for an Upload
-     *
-     * @param $sourcePath
-     * @param TokenContract $token
-     * @return array
-     */
-    public function buildFileParameters($sourcePath, TokenContract $token);
-
-    /**
-     * Builds the HTTP Token Request Parameters
-     *
-     * @return array
-     */
-    public function buildTokenParameters();
-
-    /**
      * Sends a GET Request
      *
      * @param $uri

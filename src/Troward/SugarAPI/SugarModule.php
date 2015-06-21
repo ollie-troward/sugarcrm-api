@@ -6,7 +6,7 @@ use Troward\SugarAPI\Contracts\SugarModuleContract;
  * Class SugarModule
  * @package Troward\SugarAPI
  */
-class SugarModule implements SugarModuleContract
+class SugarModule extends SugarBase implements SugarModuleContract
 {
     /**
      * Name of the Module
@@ -14,13 +14,6 @@ class SugarModule implements SugarModuleContract
      * @var string
      */
     protected $module;
-
-    /**
-     * The Client used for the API
-     *
-     * @var GuzzleClient
-     */
-    protected $client;
 
     /**
      * Filters for record query
@@ -37,18 +30,8 @@ class SugarModule implements SugarModuleContract
      */
     function __construct($module)
     {
+        parent::__construct();
         $this->module = $module;
-        $this->client = new GuzzleClient;
-    }
-
-    /**
-     * Retrieves the latest token
-     *
-     * @return Token
-     */
-    protected function token()
-    {
-        return Token::retrieve();
     }
 
     /**
@@ -76,7 +59,7 @@ class SugarModule implements SugarModuleContract
      */
     public function all($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->client->get($this->module, $this->client->buildParameters($limit, [], $fields, $orderBy, $this->token()));
+        return $this->client->get($this->module, $this->parameters->filter($limit, [], $fields, $orderBy, $this->token()));
     }
 
     /**
@@ -89,7 +72,7 @@ class SugarModule implements SugarModuleContract
      */
     public function get($limit = 500, $fields = [], $orderBy = [])
     {
-        return $this->client->get($this->module . "/filter", $this->client->buildParameters($limit, $this->filters, $fields, $orderBy, $this->token()));
+        return $this->client->get($this->module . "/filter", $this->parameters->filter($limit, $this->filters, $fields, $orderBy, $this->token()));
     }
 
     /**
@@ -100,7 +83,7 @@ class SugarModule implements SugarModuleContract
      */
     public function create(array $fields)
     {
-        return $this->client->post($this->module, $this->client->buildParameters(0, [], $fields, [], $this->token()));
+        return $this->client->post($this->module, $this->parameters->filter(0, [], $fields, [], $this->token()));
     }
 
     /**
@@ -112,7 +95,7 @@ class SugarModule implements SugarModuleContract
      */
     public function update($id, array $fields)
     {
-        return $this->client->put($this->module . "/" . $id, $this->client->buildParameters(0, [], $fields, [], $this->token()));
+        return $this->client->put($this->module . "/" . $id, $this->parameters->filter(0, [], $fields, [], $this->token()));
     }
 
     /**
@@ -123,21 +106,35 @@ class SugarModule implements SugarModuleContract
      */
     public function delete($id)
     {
-        return $this->client->delete($this->module . "/" . $id, $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->delete($this->module . "/" . $id, $this->parameters->filter(0, [], [], [], $this->token()));
     }
 
     /**
-     * Links related records by module
+     * Get related records by module
      *
      * @param $id
      * @param $relatedModule
      * @param array $fields
      * @return $this
      */
-    public function link($id, $relatedModule, $fields = [])
+    public function getRelation($id, $relatedModule, $fields = [])
     {
-        return $this->client->get($this->module . "/" . $id . "/link/" . strtolower($relatedModule), $this->client->buildParameters(0, [], $fields, [], $this->token()));
+        return $this->client->get($this->module . "/" . $id . "/link/" . strtolower($relatedModule), $this->parameters->filter(0, [], $fields, [], $this->token()));
     }
+
+    /**
+     * Set related record by module and id
+     *
+     * @param $id
+     * @param $relatedModule
+     * @param $relatedId
+     * @return mixed
+     */
+    public function setRelation($id, $relatedModule, $relatedId)
+    {
+        return $this->client->post($this->module . "/" . $id . "/link/" . strtolower($relatedModule) . "/" . $relatedId, $this->parameters->none($this->token()));
+    }
+
 
     /**
      * Appends an AND filter to the query
@@ -175,7 +172,7 @@ class SugarModule implements SugarModuleContract
      */
     public function favorite($id)
     {
-        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->parameters->none($this->token()));
     }
 
     /**
@@ -186,7 +183,7 @@ class SugarModule implements SugarModuleContract
      */
     public function unfavorite($id)
     {
-        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->put($this->module . "/" . $id . "/" . __FUNCTION__, $this->parameters->none($this->token()));
     }
 
     /**
@@ -197,7 +194,7 @@ class SugarModule implements SugarModuleContract
      */
     public function subscribe($id)
     {
-        return $this->client->post($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->post($this->module . "/" . $id . "/" . __FUNCTION__, $this->parameters->none($this->token()));
     }
 
     /**
@@ -208,17 +205,27 @@ class SugarModule implements SugarModuleContract
      */
     public function unsubscribe($id)
     {
-        return $this->client->delete($this->module . "/" . $id . "/" . __FUNCTION__, $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->delete($this->module . "/" . $id . "/" . __FUNCTION__, $this->parameters->none($this->token()));
     }
 
     /**
-     * @param $recordId
-     * @param $destinationPath
+     * @param $id
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function downloadFile($recordId, $destinationPath)
+    public function getFileList($id)
     {
-        $response = $this->client->get($this->module . "/" . $recordId . "/file/filename", $this->client->buildParameters(0, [], [], [], $this->token()));
+        return $this->client->get($this->module . "/" . $id . "/file", $this->parameters->none($this->token()));
+    }
+
+    /**
+     * @param $id
+     * @param $destinationPath
+     * @param string $field
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     */
+    public function downloadFile($id, $destinationPath, $field = 'filename')
+    {
+        $response = $this->client->get($this->module . "/" . $id . "/file/" . $field, $this->parameters->none($this->token()));
 
         file_put_contents($destinationPath, $response->getBody()->getContents());
 
@@ -226,12 +233,32 @@ class SugarModule implements SugarModuleContract
     }
 
     /**
-     * @param $recordId
+     * @param $id
      * @param $sourcePath
+     * @param string $field
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function uploadFile($recordId, $sourcePath)
+    public function uploadFile($id, $sourcePath, $field = 'filename')
     {
-        return $this->client->post($this->module . "/" . $recordId . "/file/filename", $this->client->buildFileParameters($sourcePath, $this->token()));
+        return $this->client->post($this->module . "/" . $id . "/file/" . $field, $this->parameters->fileUpload($sourcePath, $this->token()));
+    }
+
+    /**
+     * @param $id
+     * @param string $field
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     */
+    public function deleteFile($id, $field = "filename")
+    {
+        return $this->client->delete($this->module . "/" . $id . "/file/" . $field, $this->parameters->none($this->token()));
+    }
+
+    /**
+     * @param $id
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|mixed|null
+     */
+    public function changeLog($id)
+    {
+        return $this->client->get($this->module . "/" . $id . "/audit", $this->parameters->none($this->token()));
     }
 }

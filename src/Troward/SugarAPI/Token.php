@@ -14,6 +14,16 @@ class Token implements TokenContract
     protected $client;
 
     /**
+     * @var Parameter
+     */
+    protected $parameters;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * @var $access_token string
      */
     private $access_token;
@@ -39,6 +49,8 @@ class Token implements TokenContract
     function __construct()
     {
         $this->client = new GuzzleClient;
+        $this->parameters = new Parameter;
+        $this->config = Config::get();
         $this->make();
     }
 
@@ -64,7 +76,7 @@ class Token implements TokenContract
     {
         if (!empty($this->token)) return $this->token;
 
-        $newToken = $this->client->post($this->loginUri, $this->client->buildTokenParameters());
+        $newToken = $this->client->post($this->loginUri, $this->parameters->token($this->config));
 
         $this->setProperties($newToken->json());
 
@@ -87,7 +99,7 @@ class Token implements TokenContract
     {
         if (!empty($this->access_token))
         {
-            $this->client->post($this->logoutUri, $this->client->buildParameters(0, [], [], [], $this));
+            $this->client->post($this->logoutUri, $this->parameters->none($this));
         }
 
         return true;

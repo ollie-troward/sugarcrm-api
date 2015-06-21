@@ -62,14 +62,24 @@ interface SugarModuleContract
     public function delete($id);
 
     /**
-     * Links related records by module
+     * Get related records by module
      *
      * @param $id
      * @param $relatedModule
      * @param array $fields
      * @return $this
      */
-    public function link($id, $relatedModule, $fields = []);
+    public function getRelation($id, $relatedModule, $fields = []);
+
+    /**
+     * Set related record by module and id
+     *
+     * @param $id
+     * @param $relatedModule
+     * @param $relatedId
+     * @return mixed
+     */
+    public function setRelation($id, $relatedModule, $relatedId);
 
     /**
      * Appends an AND filter to the query
@@ -122,20 +132,41 @@ interface SugarModuleContract
     public function unsubscribe($id);
 
     /**
-     * Download a file
-     *
-     * @param $recordId
-     * @param $destinationPath
+     * @param $id
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function downloadFile($recordId, $destinationPath);
+    public function getFileList($id);
+
+    /**
+     * Download a file
+     *
+     * @param $id
+     * @param $destinationPath
+     * @param string $field
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     */
+    public function downloadFile($id, $destinationPath, $field = 'filename');
 
     /**
      * Upload a file
      *
-     * @param $recordId
+     * @param $id
      * @param $sourcePath
+     * @param string $field
      * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
      */
-    public function uploadFile($recordId, $sourcePath);
+    public function uploadFile($id, $sourcePath, $field = 'filename');
+
+    /**
+     * @param $id
+     * @param string $field
+     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     */
+    public function deleteFile($id, $field = 'filename');
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function changeLog($id);
 }
