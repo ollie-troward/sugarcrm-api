@@ -15,9 +15,9 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     protected $response;
 
     /**
-     * @var $records
+     * @var $results
      */
-    protected $records;
+    protected $results;
 
     /**
      * @param ResponseInterface $response
@@ -25,16 +25,16 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     function __construct(ResponseInterface $response)
     {
         $this->response = $response;
-        $this->records = $this->setRecords($response->json());
+        $this->results = $this->setResults($response->json());
     }
 
     /**
      * @param $response
      * @return array
      */
-    protected function setRecords($response)
+    protected function setResults($response)
     {
-        if (isset($response['records'])) return $response['records'];
+        if (isset($response['results'])) return $response['results'];
 
         if (isset($response['filename'])) return $response['filename'];
     }
@@ -55,7 +55,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function current()
     {
-        return current($this->records);
+        return current($this->results);
     }
 
     /**
@@ -66,7 +66,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function next()
     {
-        return next($this->records);
+        return next($this->results);
     }
 
     /**
@@ -77,7 +77,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function key()
     {
-        return key($this->records);
+        return key($this->results);
     }
 
     /**
@@ -89,7 +89,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function valid()
     {
-        return (key($this->records) !== NULL);
+        return (key($this->results) !== NULL);
     }
 
     /**
@@ -100,7 +100,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function rewind()
     {
-        return reset($this->records);
+        return reset($this->results);
     }
 
     /**
@@ -117,7 +117,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->records[$offset]);
+        return isset($this->results[$offset]);
     }
 
     /**
@@ -131,7 +131,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->records[$offset]) ? $this->records[$offset] : null;
+        return isset($this->results[$offset]) ? $this->results[$offset] : null;
     }
 
     /**
@@ -150,10 +150,10 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     {
         if (is_null($offset))
         {
-            $this->records[] = $value;
+            $this->results[] = $value;
         } else
         {
-            $this->records[$offset] = $value;
+            $this->results[$offset] = $value;
         }
     }
 
@@ -168,6 +168,6 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->records[$offset]);
+        unset($this->results[$offset]);
     }
 }
