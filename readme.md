@@ -1,10 +1,6 @@
 # SugarCRM 7 REST API Wrapper
 
 [![Build Status](https://travis-ci.org/ollie-troward/sugarcrm-api.svg?branch=develop)](https://travis-ci.org/ollie-troward/sugarcrm-api)
-[![Latest Stable Version](https://poser.pugx.org/troward/sugarcrm-api/v/stable)](https://packagist.org/packages/troward/sugarcrm-api) 
-[![Total Downloads](https://poser.pugx.org/troward/sugarcrm-api/downloads)](https://packagist.org/packages/troward/sugarcrm-api) 
-[![Latest Unstable Version](https://poser.pugx.org/troward/sugarcrm-api/v/unstable)](https://packagist.org/packages/troward/sugarcrm-api) 
-[![License](https://poser.pugx.org/troward/sugarcrm-api/license)](https://packagist.org/packages/troward/sugarcrm-api)
 
 A cleaner and quicker option for using the SugarCRM 7 REST API (v10).
 
@@ -18,14 +14,22 @@ Usage
 ------------
 
     # Enter your details
-    new Troward\SugarAPI\Config('<your_url>','<your_username>','<your_password>','<your_consumer_key>','<your_consumer_secret>');
+    new Troward\SugarAPI\Config(
+        '<your_url>','<your_username>',
+        '<your_password>','<your_consumer_key>',
+        '<your_consumer_secret>'
+        );
     
     # Generate a new token
     new Troward\SugarAPI\Token();
     
-    # Retrieve your data
-    $account = new Troward\SugarAPI\Account();
-    $account->all(500); // Returns 500 Account records
+    # Retrieve your data by Module
+    $account = new Troward\SugarAPI\SugarModule('Accounts');
+    $account->all(500); // Returns 500 Account Records
+    
+    # Run requests without Modules
+    $client = new Troward\SugarAPI\SugarClient();
+    $client->mostActiveUsers(30); // Returns most active users in the last 30 days
 
 Testing
 ------------
