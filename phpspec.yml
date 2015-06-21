@@ -1,2 +1,5 @@
+suites:
+  default:
+    spec_path: tests
 extensions:
     - PhpSpec\NyanFormattersExtension\Extension

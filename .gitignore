@@ -1,5 +1,4 @@
 /.idea
-/storage
 /vendor
 composer.phar
 composer.lock

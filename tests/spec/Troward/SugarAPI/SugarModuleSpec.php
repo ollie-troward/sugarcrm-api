@@ -186,7 +186,7 @@ class SugarModuleSpec extends BaseSpec
         $this->module = "Notes";
         $this->let();
 
-        $sourcePath = 'storage/test.txt';
+        $sourcePath = 'tests/storage/test.txt';
 
         $this->uploadFile($this->validFileRecordId, $sourcePath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
@@ -200,7 +200,7 @@ class SugarModuleSpec extends BaseSpec
         $this->module = "Notes";
         $this->let();
 
-        $destinationPath = 'storage/retrieved.txt';
+        $destinationPath = 'tests/storage/retrieved.txt';
 
         $this->downloadFile($this->validFileRecordId, $destinationPath)
             ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
