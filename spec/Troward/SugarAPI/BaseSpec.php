@@ -46,8 +46,7 @@ class BaseSpec extends ObjectBehavior
      */
     function __construct()
     {
-        $dotenv = new Dotenv(__DIR__ . '/../../../');
-        $dotenv->load();
+        $this->loadDotEnv();
 
         $this->credentials = [
             'url' => getenv('URL'),
@@ -61,6 +60,26 @@ class BaseSpec extends ObjectBehavior
         $this->it_needs_a_token();
         $this->it_needs_a_request_dependency();
         $this->it_needs_a_parameter_builder();
+    }
+
+    /**
+     * Checks for .env if it is being used for testing
+     *
+     * @return bool
+     */
+    function loadDotEnv()
+    {
+        $dotenv = new Dotenv(__DIR__ . '/../../../');
+
+        try
+        {
+            $dotenv->load();
+        } catch (\InvalidArgumentException $e)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
