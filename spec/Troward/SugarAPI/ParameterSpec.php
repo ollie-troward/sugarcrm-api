@@ -9,4 +9,9 @@ class ParameterSpec extends BaseSpec
     {
         $this->shouldHaveType('Troward\SugarAPI\Parameter');
     }
+
+    function let()
+    {
+        $this->beConstructedWith($this->token);
+    }
 }

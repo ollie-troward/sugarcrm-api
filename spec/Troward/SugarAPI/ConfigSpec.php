@@ -11,7 +11,11 @@ class ConfigSpec extends BaseSpec
      */
     function let()
     {
-        $this->beConstructedWith(getenv('url'), getenv('username'), getenv('password'), getenv('consumer_key'), getenv('consumer_secret'));
+        $this->beConstructedWith(
+            getenv('url'), getenv('username'),
+            getenv('password'), getenv('consumer_key'),
+            getenv('consumer_secret')
+        );
     }
 
     /**
@@ -20,14 +24,6 @@ class ConfigSpec extends BaseSpec
     function it_is_initializable()
     {
         $this->shouldHaveType('Troward\SugarAPI\Config');
-    }
-
-    /**
-     *
-     */
-    function it_should_return_config_details()
-    {
-        $this->get()->shouldReturnAnInstanceOf('Troward\SugarAPI\Config');
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php namespace spec\Troward\SugarAPI;
 
 /**
- * Class SugarClientSpec
+ * Class OtherSpec
  * @package spec\Troward\SugarAPI
  */
-class SugarClientSpec extends BaseSpec
+class OtherSpec extends BaseSpec
 {
     /**
      * A valid record id.
@@ -58,7 +58,15 @@ class SugarClientSpec extends BaseSpec
      */
     function it_is_initializable()
     {
-        $this->shouldHaveType('Troward\SugarAPI\SugarClient');
+        $this->shouldHaveType('Troward\SugarAPI\Other');
+    }
+
+    /**
+     *
+     */
+    function let()
+    {
+        $this->beConstructedWith($this->request, $this->parameters);
     }
 
     /**

@@ -3,10 +3,10 @@
 use GuzzleHttp\Exception\BadResponseException;
 
 /**
- * Class GuzzleClientException
+ * Class SugarResponseException
  * @package Troward\SugarAPI\Exceptions
  */
-class GuzzleClientException extends \RuntimeException
+class SugarResponseException extends \RuntimeException
 {
     /**
      * @param BadResponseException $e

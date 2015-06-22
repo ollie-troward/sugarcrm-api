@@ -1,26 +1,30 @@
-<?php namespace Troward\SugarAPI\Contracts;
+<?php namespace Troward\SugarAPI;
 
 /**
  * Interface ParameterContract
- * @package Troward\SugarAPI\Contracts
+ * @package Troward\SugarAPI
  */
-interface ParameterContract
+interface ParameterInterface
 {
+    /**
+     * @param Token $token
+     */
+    public function setToken(Token $token);
+
     /**
      * No parameters with token
      *
-     * @param TokenContract $token
      * @return array
      */
-    public function none(TokenContract $token);
+    public function tokenOnly();
 
     /**
      * Builds the HTTP Token Request Parameters
      *
-     * @param ConfigContract $config
+     * @param Config $config
      * @return array
      */
-    public function token(ConfigContract $config);
+    public function newToken(Config $config);
 
     /**
      * Builds the HTTP Request Parameters
@@ -29,17 +33,15 @@ interface ParameterContract
      * @param array $filters
      * @param array $fields
      * @param array $orderBy
-     * @param TokenContract $token
      * @return array
      */
-    public function filter($limit, array $filters, array $fields, array $orderBy, TokenContract $token);
+    public function filter($limit, array $filters, array $fields, array $orderBy);
 
     /**
      * Builds the necessary file parameters for an upload
      *
      * @param $sourcePath
-     * @param TokenContract $token
      * @return array
      */
-    public function fileUpload($sourcePath, TokenContract $token);
+    public function fileUpload($sourcePath);
 }

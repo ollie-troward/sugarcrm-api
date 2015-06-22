@@ -1,10 +1,6 @@
-<?php namespace Troward\SugarAPI\Contracts;
+<?php namespace Troward\SugarAPI;
 
-/**
- * Interface SugarModuleContract
- * @package Troward\SugarAPI\Contracts
- */
-interface SugarModuleContract
+interface ModuleInterface
 {
     /**
      * Finds the first record by value
@@ -12,7 +8,7 @@ interface SugarModuleContract
      * @param $key
      * @param $value
      * @param array $fields
-     * @return array
+     * @return Result
      */
     public function find($key, $value, $fields = []);
 
@@ -22,7 +18,7 @@ interface SugarModuleContract
      * @param int $limit
      * @param array $fields
      * @param array $orderBy
-     * @return array
+     * @return Result
      */
     public function all($limit = 500, $fields = [], $orderBy = []);
 
@@ -32,7 +28,7 @@ interface SugarModuleContract
      * @param int $limit
      * @param array $fields
      * @param array $orderBy
-     * @return array
+     * @return Result
      */
     public function get($limit = 500, $fields = [], $orderBy = []);
 
@@ -40,7 +36,7 @@ interface SugarModuleContract
      * Creates a new record
      *
      * @param array $fields
-     * @return array
+     * @return Result
      */
     public function create(array $fields);
 
@@ -49,7 +45,7 @@ interface SugarModuleContract
      *
      * @param $id
      * @param array $fields
-     * @return array
+     * @return Result
      */
     public function update($id, array $fields);
 
@@ -57,7 +53,7 @@ interface SugarModuleContract
      * Deletes an existing record based on 'id'
      *
      * @param $id
-     * @return array
+     * @return Result
      */
     public function delete($id);
 
@@ -67,7 +63,7 @@ interface SugarModuleContract
      * @param $id
      * @param $relatedModule
      * @param array $fields
-     * @return $this
+     * @return Result
      */
     public function getRelation($id, $relatedModule, $fields = []);
 
@@ -77,7 +73,7 @@ interface SugarModuleContract
      * @param $id
      * @param $relatedModule
      * @param $relatedId
-     * @return mixed
+     * @return Result
      */
     public function setRelation($id, $relatedModule, $relatedId);
 
@@ -103,7 +99,7 @@ interface SugarModuleContract
      * Favorites a record
      *
      * @param $id
-     * @return bool
+     * @return Result
      */
     public function favorite($id);
 
@@ -111,7 +107,7 @@ interface SugarModuleContract
      * Unfavorite a record
      *
      * @param $id
-     * @return bool
+     * @return Result
      */
     public function unfavorite($id);
 
@@ -119,7 +115,7 @@ interface SugarModuleContract
      * Subscribe to a record
      *
      * @param $id
-     * @return bool
+     * @return Result
      */
     public function subscribe($id);
 
@@ -127,13 +123,13 @@ interface SugarModuleContract
      * Unsubscribe to a record
      *
      * @param $id
-     * @return bool
+     * @return Result
      */
     public function unsubscribe($id);
 
     /**
      * @param $id
-     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     * @return Result
      */
     public function getFileList($id);
 
@@ -143,7 +139,7 @@ interface SugarModuleContract
      * @param $id
      * @param $destinationPath
      * @param string $field
-     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     * @return Result
      */
     public function downloadFile($id, $destinationPath, $field = 'filename');
 
@@ -153,20 +149,20 @@ interface SugarModuleContract
      * @param $id
      * @param $sourcePath
      * @param string $field
-     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     * @return Result
      */
     public function uploadFile($id, $sourcePath, $field = 'filename');
 
     /**
      * @param $id
      * @param string $field
-     * @return array|\GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     * @return Result
      */
     public function deleteFile($id, $field = 'filename');
 
     /**
      * @param $id
-     * @return mixed
+     * @return Result
      */
     public function changeLog($id);
 }

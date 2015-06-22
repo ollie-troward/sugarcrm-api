@@ -1,13 +1,12 @@
 <?php namespace Troward\SugarAPI;
 
-use Troward\SugarAPI\Contracts\SugarResultContract;
 use GuzzleHttp\Message\ResponseInterface;
 
 /**
- * Class SugarResult
+ * Class Result
  * @package Troward\SugarAPI
  */
-class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
+class Result implements ResultInterface, \Iterator, \ArrayAccess
 {
     /**
      * @var $response
@@ -37,6 +36,8 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
         if (isset($response['results'])) return $response['results'];
 
         if (isset($response['filename'])) return $response['filename'];
+
+        if (isset($response['access_token'])) return $response;
     }
 
     /**
@@ -48,7 +49,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
@@ -59,7 +60,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
@@ -70,7 +71,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
      * @return mixed scalar on success, or null on failure.
@@ -81,7 +82,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
@@ -93,7 +94,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
@@ -104,7 +105,7 @@ class SugarResult implements SugarResultContract, \Iterator, \ArrayAccess
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
+     * (PHP 5 &gt;= 5.0.0)
      * Whether a offset exists
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param mixed $offset <p>

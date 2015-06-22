@@ -1,5 +1,8 @@
 <?php namespace spec\Troward\SugarAPI;
 
+use Troward\SugarAPI\GuzzleRequest;
+use Troward\SugarAPI\Parameter;
+
 /**
  * Class TokenSpec
  * @package spec\Troward\SugarAPI
@@ -7,7 +10,7 @@
 class TokenSpec extends BaseSpec
 {
     /**
-     *
+     * It can be initialized
      */
     function it_is_initializable()
     {
@@ -15,29 +18,32 @@ class TokenSpec extends BaseSpec
     }
 
     /**
-     *
+     * It requires the config, a request client and parameter builder
      */
-    function it_creates_the_current_instance_token()
+    function let()
     {
-        $this->retrieve()->shouldHaveType('Troward\SugarAPI\Token');
+        $this->beConstructedWith($this->config, new GuzzleRequest($this->config), new Parameter);
     }
 
     /**
-     *
+     * It should create a new Access Token
      */
-    function it_should_return_the_current_access_token()
+    function it_should_create_a_new_access_token()
     {
-        $this->make()->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
+        $this->make()
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
     }
 
     /**
-     *
+     * It should destroy the token and session
      */
     function it_should_destroy_the_session()
     {
-        $this->make()->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
+        $this->make()
+            ->shouldReturnAnInstanceOf('Troward\SugarAPI\Token');
 
-        $this->destroy()->shouldReturn(true);
+        $this->destroy()
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
 }

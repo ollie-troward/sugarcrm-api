@@ -1,10 +1,10 @@
 <?php namespace spec\Troward\SugarAPI;
 
 /**
- * Class SugarResultSpec
+ * Class ResultSpec
  * @package spec\Troward\SugarAPI
  */
-class SugarResultSpec extends BaseSpec
+class ResultSpec extends BaseSpec
 {
     /**
      *

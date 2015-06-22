@@ -1,16 +1,15 @@
 <?php namespace spec\Troward\SugarAPI;
-use Troward\SugarAPI\SugarModule;
 
 /**
- * Class SugarModuleSpec
+ * Class ModuleSpec
  * @package spec\Troward\SugarAPI
  */
-class SugarModuleSpec extends BaseSpec
+class ModuleSpec extends BaseSpec
 {
     /**
      * @var string
      */
-    protected $module = "Accounts";
+    protected $module = 'Accounts';
 
     /**
      * A valid record id.
@@ -43,10 +42,18 @@ class SugarModuleSpec extends BaseSpec
     /**
      *
      */
-    function __construct()
+    function it_is_initializable()
     {
-        parent::__construct();
+        $this->shouldHaveType('Troward\SugarAPI\Module');
+    }
+
+    /**
+     *
+     */
+    function let()
+    {
         $this->setEnvVariables();
+        $this->beConstructedWith($this->module, $this->request, $this->parameters);
     }
 
     /**
@@ -60,28 +67,13 @@ class SugarModuleSpec extends BaseSpec
     }
 
     /**
-     *
-     */
-    function let()
-    {
-        $this->beConstructedWith($this->module);
-    }
-
-    /**
-     *
-     */
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('Troward\SugarAPI\SugarModule');
-    }
-
-    /**
      * Retrieve all records via all()
      */
     function it_retrieves_all_records_with_a_limit()
     {
         $limit = 10;
-        $this->all($limit)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+        $this->all($limit)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -90,7 +82,8 @@ class SugarModuleSpec extends BaseSpec
     function it_gets_all_records_with_a_limit()
     {
         $limit = 10;
-        $this->get($limit)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+        $this->get($limit)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -98,7 +91,8 @@ class SugarModuleSpec extends BaseSpec
      */
     function it_retrieves_the_first_record()
     {
-        $this->find('id', $this->validRecordId)->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+        $this->find('id', $this->validRecordId)
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -106,7 +100,8 @@ class SugarModuleSpec extends BaseSpec
      */
     function it_fails_to_retrieve_any_records()
     {
-        $this->find('id', 'not_valid_id')->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+        $this->find('id', 'not_valid_id')
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -117,7 +112,7 @@ class SugarModuleSpec extends BaseSpec
         $this->where('name', $this->validRecordName)
             ->where('id', $this->validRecordId)
             ->get()
-            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -128,7 +123,7 @@ class SugarModuleSpec extends BaseSpec
         $this->where('name', $this->validRecordName)
             ->orWhere('id', $this->validRecordId)
             ->get()
-            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -176,7 +171,7 @@ class SugarModuleSpec extends BaseSpec
         $this->let();
 
         $this->getFileList($this->validFileRecordId)
-            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -225,7 +220,7 @@ class SugarModuleSpec extends BaseSpec
     function it_can_get_a_related_module()
     {
         $this->getRelation($this->validRecordId, "Notes")
-            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 
     /**
@@ -243,6 +238,6 @@ class SugarModuleSpec extends BaseSpec
     function it_can_retrieve_an_audit_log()
     {
         $this->changeLog($this->validRecordId)
-            ->shouldReturnAnInstanceOf('Troward\SugarAPI\SugarResult');
+            ->shouldReturnAnInstanceOf('GuzzleHttp\Message\Response');
     }
 }
