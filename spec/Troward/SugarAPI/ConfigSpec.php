@@ -12,9 +12,9 @@ class ConfigSpec extends BaseSpec
     function let()
     {
         $this->beConstructedWith(
-            getenv('url'), getenv('username'),
-            getenv('password'), getenv('consumer_key'),
-            getenv('consumer_secret')
+            $this->credentials['url'], $this->credentials['username'],
+            $this->credentials['password'], $this->credentials['consumer_key'],
+            $this->credentials['consumer_secret']
         );
     }
 

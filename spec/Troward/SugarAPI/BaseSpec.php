@@ -1,5 +1,7 @@
 <?php namespace spec\Troward\SugarAPI;
 
+use Dotenv\Dotenv;
+
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -44,12 +46,15 @@ class BaseSpec extends ObjectBehavior
      */
     function __construct()
     {
+        $dotenv = new Dotenv(__DIR__ . '/../../../');
+        $dotenv->load();
+
         $this->credentials = [
-            'url' => getenv('url'),
-            'username' => getenv('username'),
-            'password' => getenv('password'),
-            'consumer_key' => getenv('consumer_key'),
-            'consumer_secret' => getenv('consumer_secret'),
+            'url' => getenv('URL'),
+            'username' => getenv('USERNAME'),
+            'password' => getenv('PASSWORD'),
+            'consumer_key' => getenv('CONSUMER_KEY'),
+            'consumer_secret' => getenv('CONSUMER_SECRET'),
         ];
 
         $this->it_needs_the_configuration_to_be_set();

@@ -61,9 +61,9 @@ class ModuleSpec extends BaseSpec
      */
     private function setEnvVariables()
     {
-        $this->validRecordId = getenv('valid_account_id');
-        $this->validRecordName = getenv('valid_account_name');
-        $this->validFileRecordId = getenv('valid_file_record_id');
+        $this->validRecordId = getenv('VALID_ACCOUNT_ID');
+        $this->validRecordName = getenv('VALID_ACCOUNT_NAME');
+        $this->validFileRecordId = getenv('VALID_FILE_RECORD_ID');
     }
 
     /**
